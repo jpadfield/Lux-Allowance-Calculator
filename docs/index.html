@@ -178,9 +178,7 @@
   
   </div> <!-- End Container -->
 </div><!-- End Form -->
-</form>
-
-<div class="foonote"><ul></ul></div></div><!--/span--></div><!--/row-->    <br/>
+</form><div class="foonote"><ul></ul></div></div><!--/span--></div><!--/row-->    <br/>
 			</div><!--/span-->
 			
 			
@@ -221,7 +219,9 @@ $.when(
   $.getJSON("js/object-types.json", function(data) {types = data;}),
   $.getJSON("js/light-profiles.json", function(data) {profiles = data;})
 	).then(function()
-		{populateInputs()});$(function() {
+		{use = types[vars["type"]]
+		 prof = profiles[vars["prof"]];
+		 populateInputs()});$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
   // ------------------------------------------------------ //
