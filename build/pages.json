@@ -1,0 +1,12 @@
+{
+"home": {
+	"title": "Lux Allowance - <b>Calculator</b>",
+	"content": "<p>TODO</p>",
+	"content right": ""
+	},
+"about": {
+	"title": "<b>About</b>",
+	"content": "<div class=\"alert alert-info\" role=\"alert\"><h4>Needs so comments<\/h4><p>Details.<\/p><\/div>",
+	"content right": ""		
+	}
+}
