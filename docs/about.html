@@ -12,6 +12,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="https://unpkg.com/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+	<link href="css/luxAllCalc.css" rel="stylesheet" type="text/css">
     <style>
     
     </style>
@@ -61,10 +63,29 @@
 	<script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
 	<script src="https://unpkg.com/tether@1.4.7/dist/js/tether.min.js"></script>
 	<script src="https://unpkg.com/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+	<script src="js/luxAllCalc.js"></script>
     <script>
 			
 			function onLoad() {
-				$(function() {
+				$(function () { // INITIALIZE DATEPICKER PLUGIN
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "yyyy-mm-dd"});});
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+buildDropdowns ()
+		
+$.when(
+  $.getJSON("object-types.json", function(data) {types = data;}),
+  $.getJSON("light-profiles.json", function(data) {profiles = data;})
+	).then(function()
+		{use = types[vars["type"]]
+		 prof = profiles[vars["prof"]];
+		 populateInputs()});$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
   // ------------------------------------------------------ //

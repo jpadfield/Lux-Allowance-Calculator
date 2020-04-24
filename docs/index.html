@@ -12,6 +12,8 @@
 	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	<link href="https://unpkg.com/bootstrap@4.4.1/dist/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="css/main.css" rel="stylesheet" type="text/css">
+	<link href="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css">
+	<link href="css/luxAllCalc.css" rel="stylesheet" type="text/css">
     <style>
     
     </style>
@@ -40,7 +42,140 @@
 			<div class="row ">				
 			 <div class="col-12 col-md-12">          
 				
-				<div class="jumbotron"><h2>Lux Allowance - <b>Calculator</b></h2></div><div class="row"><div class="col-12 col-lg-12"></div><!--/span--></div><!--/row-->    <div class="row"><div class="col-12 col-lg-12"><p>TODO</p><div class="foonote"><ul></ul></div></div><!--/span--></div><!--/row-->    <br/>
+				<div class="jumbotron"><h2>Lux Allowance - <b>Calculator</b></h2></div><div class="row"><div class="col-12 col-lg-12"></div><!--/span--></div><!--/row-->    <div class="row"><div class="col-12 col-lg-12"><form>
+<div class="form-group mb-4"> <!-- Start Form -->
+	<div class="container"> <!-- Start Container -->
+
+		
+		<div class="row">
+			<div class="col-md-12">	
+				<h5>Exhibition Dates</h5>
+			</div></div>
+			
+		<div class="row ">  <!-- Start Row -->
+
+			<div class="col-md-6">						
+				<div class="datepicker date input-group p-0 shadow-sm">
+					<div class="input-group-prepend">
+						<span class="input-group-text" style="width:75px;" id="basic-addonS">Start</span>
+					</div>
+					<input onchange="dateUpdate()" type="text" placeholder="Start date" class="form-control py-4 px-4" id="start">
+					<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
+				</div>
+			</div>
+			
+			<div class="col-md-6">   
+				<div class="datepicker date input-group p-0 shadow-sm">
+					
+					<div class="input-group-prepend">
+						<span class="input-group-text" style="width:75px;" id="basic-addonE">End</span>
+					</div>
+					<input onchange="dateUpdate()" type="text" placeholder="End date" class="form-control py-4 px-4" id="end">
+					<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
+			</div>
+			
+		</div>
+
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">	
+				<h5>Opening Hours</h5>
+		</div></div>
+			
+		<div class="row" style="margin-bottom: 1rem;">
+			<div class="input-group col-md-12">					
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;" id="basic-addon2">Opening Profile</span>
+				</div>				
+				<select onchange="profUpdate()" class="form-control" id="prof" aria-label="Light Sensitivity" aria-describedby="basic-addon2">
+				</select>
+			</div>
+			
+		</div>
+		
+
+		<div class="row" style="padding-left:15px;padding-right:15px;">
+<div class="alert alert-info col-md-12" role="alert" id="profileDetails">
+  ... selected profile details
+</div>
+	</div>
+		
+		<div class="row">
+			<div class="col-md-12">	
+				<h5>Object Type - Lux Levels</h5>
+		</div></div>
+					
+		<div class="row" style="margin-bottom: 1rem;">
+			<div class="input-group col-md-12">				
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;" id="basic-addon1">Object Type</span>
+				</div>			
+				<select onchange="typeUpdate()" class="form-control" id="type" aria-label="Light Sensitivity" aria-describedby="basic-addon1">
+				</select>
+			</div>
+			
+		</div>
+
+		<div class="row" style="padding-left:15px;padding-right:15px;">
+<div class="alert alert-info col-md-12" role="alert" id="typeComment">
+  ... brief description of this object type
+</div>
+	</div>
+	
+		<div class="row ">
+			
+			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Total annual light exposure allowance in lux hours.">
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;">Annual Allowance</span>
+				</div>
+				<input type="text" class="form-control" id="annual" placeholder="Annual Lux Allowance" aria-label="Annual Lux Allowance" aria-describedby="basic-addon5a"  readonly>				
+				<div class="input-group-append">
+					<span style="min-width:70px;"  class="input-group-text" id="basic-addon5a">Lux Hrs</span>
+				</div>
+			</div>
+						
+			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Standard operating lux Level.">
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;">Standard</span>
+				</div>
+				<input onChange="varUpdate (this.id)" type="text" class="form-control" id="luxlevel" placeholder="Lux Levels" aria-label="Exhibition Lux Level" aria-describedby="basic-addon5">				
+				<div class="input-group-append">
+					<span style="min-width:70px;"  class="input-group-text" id="basic-addon5">Lux</span>
+				</div>
+			</div>
+			
+			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Additional time for cleaning, security and other administration checks.">				
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;">Cleaning/Security</span>
+				</div>
+				<input onChange="varUpdate (this.id)"  type="text" class="form-control" id="maintenanceLux" placeholder="Maintenance Level" aria-label="Maintenance Lux Level" aria-describedby="basic-addon6">				
+				<div class="input-group-append">
+					<span style="min-width:70px;"  class="input-group-text" id="basic-addon6">Lux</span>
+				</div>
+			</div>
+			
+			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Average overnight lux level when the exhibition is completely closed.">				
+				<div class="input-group-prepend">
+					<span class="input-group-text" style="width:150px;">Overnight</span>
+				</div>				
+				<input onChange="varUpdate (this.id)"  type="text" class="form-control" id="overnightLux" placeholder="Overnight" aria-label="Opening Maintenance" aria-describedby="basic-addon7">	
+				<div class="input-group-append">
+					<span style="min-width:70px;" class="input-group-text" id="basic-addon7">Lux</span>
+				</div>
+			</div>
+		</div>
+
+
+					<div class="row" style="padding-left:15px;padding-right:15px;margin-top: 2rem;">
+<div class="alert alert-success col-md-12" role="alert" id="result">
+  ... the calculated results
+</div>
+	</div>
+		
+  </div> <!-- End Container -->
+</div><!-- End Form -->
+</form><div class="foonote"><ul></ul></div></div><!--/span--></div><!--/row-->    <br/>
 			</div><!--/span-->
 			
 			
@@ -61,10 +196,29 @@
 	<script src="https://unpkg.com/jquery@3.4.1/dist/jquery.min.js"></script>
 	<script src="https://unpkg.com/tether@1.4.7/dist/js/tether.min.js"></script>
 	<script src="https://unpkg.com/bootstrap@4.4.1/dist/js/bootstrap.min.js"></script>
+	<script src="https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js"></script>
+	<script src="js/luxAllCalc.js"></script>
     <script>
 			
 			function onLoad() {
-				$(function() {
+				$(function () { // INITIALIZE DATEPICKER PLUGIN
+  $('.datepicker').datepicker({
+    clearBtn: true,
+    format: "yyyy-mm-dd"});});
+
+$(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+buildDropdowns ()
+		
+$.when(
+  $.getJSON("object-types.json", function(data) {types = data;}),
+  $.getJSON("light-profiles.json", function(data) {profiles = data;})
+	).then(function()
+		{use = types[vars["type"]]
+		 prof = profiles[vars["prof"]];
+		 populateInputs()});$(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
   // ------------------------------------------------------ //
