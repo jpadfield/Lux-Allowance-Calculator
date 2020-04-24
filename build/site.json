@@ -15,8 +15,13 @@
 				"alt": "GitHub Jpadfield Simple-site"
 			}
 		},
-		"extra_js_scripts": [],
-		"extra_css_scripts": [],
+		"extra_js_scripts": [
+			"https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js",
+			"js/luxAllCalc.js"],
+		"extra_css_scripts": [
+			"https://unpkg.com/bootstrap-datepicker@1.9.0/dist/css/bootstrap-datepicker.min.css",
+			"css/luxAllCalc.css"],
 		"extra_css": "",
-		"extra_js": ""
+		"extra_js": "",
+		"extra_onload": "$(function () { \/\/ INITIALIZE DATEPICKER PLUGIN\r\n  $('.datepicker').datepicker({\r\n    clearBtn: true,\r\n    format: \"yyyy-mm-dd\"});});\r\n\r\n$(function () {\r\n  $('[data-toggle=\"tooltip\"]').tooltip()\r\n})\r\n\r\nbuildDropdowns ()\r\n\t\t\r\n$.when(\r\n  $.getJSON(\"object-types.json\", function(data) {types = data;}),\r\n  $.getJSON(\"light-profiles.json\", function(data) {profiles = data;})\r\n\t).then(function()\r\n\t\t{use = types[vars[\"type\"]]\r\n\t\t prof = profiles[vars[\"prof\"]];\r\n\t\t populateInputs()});"
 	}
