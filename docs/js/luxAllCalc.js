@@ -198,14 +198,12 @@ function populateInputs()
 	
 function calculateAllowance()
 		{
-		//console.log("calculateAllowance()");
-		
 		// Formulate the Difference between two dates 
 		diff = (vars["end"] - vars["start"])/1000; // return seconds
 		days = Math.floor(diff / (60*60*24)) + 1;
 		fullWeeks = Math.floor(days / 7);
 		remainder = days - (fullWeeks * 7);
-		console.log("Days: " + days + " - Weeks: " +fullWeeks)
+		
 		var dn = 0
 		
 		while (dn < remainder)
