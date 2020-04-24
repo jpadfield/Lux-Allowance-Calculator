@@ -1,4 +1,12 @@
-var processData = false
+var processData = false			
+var types
+var profiles
+var diff
+var days
+var use
+var profs
+var newInputs = true;
+var link
 
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
@@ -11,22 +19,16 @@ var now = new Date()
 var then = new Date(now)
 then.setDate(now.getDate() + 6)
 
-var vars = {'start':now, 'end':then, 'type':"Stable artworks",
-	'prof':"NG Standard",	'openingHours':false, 'openingMaintenance':false,
-	'luxlevel':false, 'maintenancelevel':false, 'overnightlevel':false}
+var vars = {'start':now, 'end':then, 'type':false,
+	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
+	'overnightLux':false}
 
 for (var key in vars)
 	{if (urlParams.has(key))
-		{vars[key] = urlParams.get(key)}}
-			
-var types
-var profiles
-var diff
-var days
-var use
-var profs
-
-var newInputs = true;
+		{if (key == "start" || key == "end")
+			{vars[key] = new Date(urlParams.get(key) + "T00:00")}
+		 else
+			{vars[key] = urlParams.get(key)}}}
 
 const dayNames = [
 	'sunday',
@@ -104,12 +106,10 @@ function dateUpdate()
 	
 	if (vars["start"] == "Invalid Date")
 		{vars["start"] = now;
-		 validateValues ("start", vars["start"].getFullYear() + "-" +
-			(vars["start"].getMonth() + 1) + "-" + vars["start"].getDate())}
+		 validateValues ("start", getDateStr(vars["start"]))}
 	if (vars["end"] == "Invalid Date")
 		{vars["end"] = then;
-		 validateValues ("end", vars["end"].getFullYear() + "-" +
-			(vars["end"].getMonth() + 1) + "-" + vars["end"].getDate())}
+		 validateValues ("end", getDateStr(vars["end"]))}
 
 	calculateAllowance()
 	}
@@ -121,7 +121,7 @@ function populateInputs()
 	var selectType = document.getElementById("type");
 	var selectProf = document.getElementById("prof");
 	var inputLL = document.getElementById('luxlevel');
-	var inputBL = document.getElementById('maintenanceLux');
+	var inputML = document.getElementById('maintenanceLux');
 	var inputOL = document.getElementById('overnightLux');
 	var inputAN = document.getElementById('annual');
 
@@ -138,10 +138,8 @@ function populateInputs()
 			 selectProf.appendChild(el);}
 		newInputs = false;}
 
-	inputStart.value = vars["start"].getFullYear() + "-" +
-		(vars["start"].getMonth() + 1) + "-" + vars["start"].getDate()
-	inputEnd.value = vars["end"].getFullYear() + "-" +
-		(vars["end"].getMonth() + 1) + "-" + vars["end"].getDate()
+	inputStart.value = getDateStr(vars["start"])
+	inputEnd.value = getDateStr(vars["end"])
      
   if (typeof types[vars["type"]] == 'undefined') {		
 		vars["type"] = Object.keys(types)[0];}
@@ -153,6 +151,9 @@ function populateInputs()
   if (typeof profiles[vars["prof"]] == 'undefined') {
 		vars["prof"] = Object.keys(profiles)[0];}
 	selectProf.value = vars["prof"];
+
+	use = types[vars["type"]]
+	prof = profiles[vars["prof"]];
 
 	var str = "";
 
@@ -168,21 +169,27 @@ function populateInputs()
 
 	displayDetails = document.getElementById('profileDetails');
 	displayDetails.innerHTML = str;
-
-	if (!vars['luxlevel'])
-		{vars['luxlevel'] = parseInt(use['luxlevel']);}
-	inputLL.value = vars['luxlevel'];
-	
+		
 	if (!vars['annual'])
 		{vars['annual'] = parseInt(use['annual']);}
 	inputAN.value = vars['annual'];
-	
-	if (!vars['maintenanceLux'])
+
+	if (!vars['luxlevel'] || vars['luxlevel'] == use['luxlevel'])
+		{vars['luxlevel'] = parseInt(use['luxlevel']);}
+	else
+		{$(inputLL).addClass("alert alert-warning");}
+	inputLL.value = vars['luxlevel'];
+
+	if (!vars['maintenanceLux'] || vars['maintenanceLux'] == use['maintenanceLux'])
 		{vars['maintenanceLux'] = parseInt(use['maintenanceLux']);}
-	inputBL.value = vars['maintenanceLux'];
+	else
+		{$(inputML).addClass("alert alert-warning");}
+	inputML.value = vars['maintenanceLux'];
 	
-	if (!vars['overnightLux'])
+	if (!vars['overnightLux'] || vars['overnightLux'] == use['overnightLux'])
 		{vars['overnightLux'] = parseInt(use['overnightLux']);}
+	else
+		{$(inputOL).addClass("alert alert-warning");}
 	inputOL.value = vars['overnightLux'];
 
 	calculateAllowance()
@@ -255,6 +262,33 @@ function calculateAllowance()
 		else
 			{tag = tag + "Allocated: " + luxTotal + " Lux Hrs<br/>CAUTION - OVEREXPOSURE BY: " + (remainder * -1) + " Lux Hrs<br/>";
 			 $(resultsDetails).addClass("alert-danger");}
+
+		link = "?"
+		for (var key in vars)
+			{			
+			if (key == "start" || key == "end")
+				{link = link + key+"="+getDateStr(vars[key])+"&"}
+			else
+				{link = link + key+"="+vars[key]+"&"}
+			}
+
+		document.getElementById('linkButton').href = link
 		
 		resultsDetails.innerHTML = tag;
 		}
+
+function getDateStr(dateVal)
+	{
+	var mn = pad((dateVal.getMonth() + 1),2)
+	var dn = pad(dateVal.getDate(),2)
+
+	var str = dateVal.getFullYear() + "-" +	mn + "-" + dn
+
+	return(str)
+	}
+	
+function pad(num, size) {
+    var s = num+"";
+    while (s.length < size) s = "0" + s;
+    return s;
+}
