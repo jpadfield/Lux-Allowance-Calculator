@@ -23,5 +23,5 @@
 			"css/luxAllCalc.css"],
 		"extra_css": "",
 		"extra_js": "",
-		"extra_onload": "$(function () { \/\/ INITIALIZE DATEPICKER PLUGIN\r\n  $('.datepicker').datepicker({\r\n    clearBtn: true,\r\n    format: \"yyyy-mm-dd\"});});\r\n\r\n$(function () {\r\n  $('[data-toggle=\"tooltip\"]').tooltip()\r\n})\r\n\r\nbuildDropdowns ()\r\n\t\t\r\n$.when(\r\n  $.getJSON(\"object-types.json\", function(data) {types = data;}),\r\n  $.getJSON(\"light-profiles.json\", function(data) {profiles = data;})\r\n\t).then(function()\r\n\t\t{use = types[vars[\"type\"]]\r\n\t\t prof = profiles[vars[\"prof\"]];\r\n\t\t populateInputs()});"
+		"extra_onload": "$(function () { \/\/ INITIALIZE DATEPICKER PLUGIN\r\n  $('.datepicker').datepicker({\r\n    clearBtn: true,\r\n    format: \"yyyy-mm-dd\"});});\r\n\r\n$(function () {\r\n  $('[data-toggle=\"tooltip\"]').tooltip()\r\n})\r\n\r\nbuildDropdowns ()\r\n\t\t\r\n$.when(\r\n  $.getJSON(\"js/object-types.json\", function(data) {types = data;}),\r\n  $.getJSON(\"js/light-profiles.json\", function(data) {profiles = data;})\r\n\t).then(function()\r\n\t\t{use = types[vars[\"type\"]]\r\n\t\t prof = profiles[vars[\"prof\"]];\r\n\t\t populateInputs()});"
 	}
