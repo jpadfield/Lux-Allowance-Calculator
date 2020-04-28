@@ -80,11 +80,10 @@ function luxUpdate (inputID)
 
 function luxValidate (inputID)
 	{
-	console.log("luxValidate ("+inputID+")")
-	var inputLU = document.getElementById('luxlevel');
+	var inputLU = document.getElementById(inputID);
 	$(inputLU).removeClass("alert-success alert-danger alert-warning");
 	
-	if (!vars[inputID] || vars[inputID] == use[inputID])
+	if (vars[inputID] === false || vars[inputID] == use[inputID])
 		{vars[inputID] = parseInt(use[inputID]);}
 	else if (vars[inputID] > vars['maxLux'])
 		{console.log (inputID + " limited to the value of maxLux: "+vars['maxLux']);
@@ -137,9 +136,6 @@ function populateInputs()
 	var inputEnd = document.getElementById("end");
 	var selectType = document.getElementById("type");
 	var selectProf = document.getElementById("prof");
-	var inputLL = document.getElementById('luxlevel');
-	var inputML = document.getElementById('maintenanceLux');
-	var inputOL = document.getElementById('overnightLux');
 	var inputAN = document.getElementById('annual');
 
 	if (newInputs) {
@@ -195,27 +191,8 @@ function populateInputs()
 	inputAN.value = vars['annual'];
 
 	luxValidate ('luxlevel');
-	/*if (!vars['luxlevel'] || vars['luxlevel'] == use['luxlevel'])
-		{vars['luxlevel'] = parseInt(use['luxlevel']);}
-	else if (vars['luxlevel'] > vars['maxLux'])
-		{console.log ("luxlevel limited to the value of maxLux: "+vars['maxLux']);
-		 vars['luxlevel'] = parseInt(vars['maxLux']);
-		 $(inputLL).addClass("alert alert-danger");}
-	else
-		{$(inputLL).addClass("alert alert-warning");}	
-	inputLL.value = vars['luxlevel'];*/
-
-	if (!vars['maintenanceLux'] || vars['maintenanceLux'] == use['maintenanceLux'])
-		{vars['maintenanceLux'] = parseInt(use['maintenanceLux']);}
-	else
-		{$(inputML).addClass("alert alert-warning");}
-	inputML.value = vars['maintenanceLux'];
-	
-	if (!vars['overnightLux'] || vars['overnightLux'] == use['overnightLux'])
-		{vars['overnightLux'] = parseInt(use['overnightLux']);}
-	else
-		{$(inputOL).addClass("alert alert-warning");}
-	inputOL.value = vars['overnightLux'];
+	luxValidate ('maintenanceLux');
+	luxValidate ('overnightLux');
 
 	calculateAllowance()
 	}
@@ -287,8 +264,17 @@ function calculateAllowance()
 		var resultStr = "Exhibition (" + days + " days): Allowance: " + allowance + " Lux Hrs<br/>"
 				
 		if (remainder >= 0)
-			{resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ remainder +" Lux Hrs "+
-				" (" +(remainder/vars["luxlevel"]).toFixed(2)+ " hrs @ "+vars["luxlevel"]+"lux) to use for additional events.<br/>";
+			{
+			if (vars["luxlevel"] > 0)
+				{var useLux = vars["luxlevel"];}
+			else
+				{var useLux = parseInt(use["luxlevel"]);}
+		
+			resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ remainder +" Lux Hrs "+
+				" to use for additional events." +
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+useLux+" lux this allows " +(remainder/useLux).toFixed(2)+ " hrs of exposure"+
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.6).toFixed(0)+" lux (60%) this allows " +(remainder/(useLux*0.6)).toFixed(2)+ " hrs of exposure"+
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.4).toFixed(0)+" lux (40%) this allows " +(remainder/(useLux*0.4)).toFixed(2)+ " hrs of exposure";
 			 $(resultsDetails).addClass("alert-success");}
 		else
 			{resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs<br/>CAUTION - OVEREXPOSURE BY: " + (remainder * -1) + " Lux Hrs<br/>";
