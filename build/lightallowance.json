@@ -1,32 +1,32 @@
 {
 	"object-types": {
-		"Stable artworks (Old)": {
+		"Stable artworks (Previous)": {
 			"annual": 650000,
-			"comment": "Stuff 01",
+			"comment": "Majority of oil and tempera paintings",
 			"luxlevel": 150,
 			"maxLux": 250,
 			"overnightLux": 10,
 			"maintenanceLux": 150
 		},
-		"Stable artworks": {
+		"Stable artworks (New)": {
 			"annual": 600000,
-			"comment": "Stuff 02",
+			"comment": "Majority of oil and tempera paintings",
 			"luxlevel": 150,
 			"maxLux": 250,
 			"overnightLux": 10,
 			"maintenanceLux": 50
 		},
-		"Light Sensitive artworks (Old)": {
+		"Light Sensitive artworks (Previous)": {
 			"annual": 208000,
-			"comment": "Stuff 03",
+			"comment": "Some works on paper, pastels, works with areas of exposed support. and other paintings with light sensitive materials",
 			"luxlevel": 50,
 			"maxLux": 50,
 			"overnightLux": 5,
 			"maintenanceLux": 50
 		},
-		"Light Sensitive artworks": {
+		"Light Sensitive artworks (New)": {
 			"annual": 150000,
-			"comment": "Stuff 04",
+			"comment": "Some works on paper, pastels, works with areas of exposed support. and other paintings with light sensitive materials",
 			"luxlevel": 50,
 			"maxLux": 50,
 			"overnightLux": 5,
@@ -44,7 +44,7 @@
 				"maintenance": 2
 			}
 		},
-		"NG Standard 2": {
+		"NG Exceptional": {
 			"default": {
 				"openingHours": 8,
 				"maintenance": 1
@@ -54,7 +54,7 @@
 				"maintenance": 1
 			}
 		},
-		"NG Test": {
+		"NG Standard 2": {
 			"default": {
 				"openingHours": 8,
 				"maintenance": 2
