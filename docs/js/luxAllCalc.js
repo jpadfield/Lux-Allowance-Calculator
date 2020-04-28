@@ -98,6 +98,7 @@ function typeUpdate()
 	{
 	vars["type"] = document.getElementById("type").value
 	use = types[vars["type"]]
+	vars['maxLux'] = parseInt(use['maxLux']);
 	vars['annual'] = parseInt(use['annual']);
 	vars['luxlevel'] = parseInt(use['luxlevel']);
 	$(".form-control").removeClass("alert alert-warning");
