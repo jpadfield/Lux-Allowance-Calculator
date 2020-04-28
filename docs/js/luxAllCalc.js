@@ -1,4 +1,3 @@
-var processData = false			
 var types
 var profiles
 var diff
@@ -11,17 +10,13 @@ var link
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 
-// Check if any data has actually been passed to the page
-const urlParamCount = Array.from(urlParams).length;
-if (urlParamCount) {processData = true}
-
 var now = new Date()
 var then = new Date(now)
 then.setDate(now.getDate() + 6)
 
 var vars = {'start':now, 'end':then, 'type':false,
 	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
-	'overnightLux':false, 'maxLux':false}
+	'overnightLux':false, 'maxLux':false, 'debug':false}
 
 for (var key in vars)
 	{if (urlParams.has(key))
@@ -60,7 +55,12 @@ function buildDropdowns () {
 				});
 			});
 		}
-		
+
+function showDebug(str)
+	{if (vars["debug"])
+		{console.log("DEBUG");
+		 console.log(str);}}
+	
 function validateValues (inputID, str)
 	{
 	var cInput = document.getElementById(inputID);
@@ -86,7 +86,7 @@ function luxValidate (inputID)
 	if (vars[inputID] === false || vars[inputID] == use[inputID])
 		{vars[inputID] = parseInt(use[inputID]);}
 	else if (vars[inputID] > vars['maxLux'])
-		{console.log (inputID + " limited to the value of maxLux: "+vars['maxLux']);
+		{showDebug (inputID + " limited to the value of maxLux: "+vars['maxLux']);
 		 vars[inputID] = parseInt(vars['maxLux']);
 		 $(inputLU).addClass("alert alert-danger");}
 	else
@@ -215,9 +215,9 @@ function dayLuxTotal (cday)
 	
 function calculateAllowance()
 		{
-		console.log("calculateAllowance")
-		console.log(vars)
-		console.log(prof)
+		showDebug("calculateAllowance")
+		showDebug(vars)
+		showDebug(prof)
 		
 		// Formulate the Difference between two dates 
 		diff = (vars["end"] - vars["start"])/1000; // return seconds
@@ -236,14 +236,14 @@ function calculateAllowance()
 			weekLuxTotal = weekLuxTotal + dayLuxTotal (item);
 			});
 
-		console.log(dayLuxTotals)
-		console.log("weekLuxTotal: " + weekLuxTotal)
-		console.log("days: " + days)
-		console.log("fullWeeks: " + fullWeeks)
-		console.log("remainder: " + remainder)
+		showDebug(dayLuxTotals)
+		showDebug("weekLuxTotal: " + weekLuxTotal)
+		showDebug("days: " + days)
+		showDebug("fullWeeks: " + fullWeeks)
+		showDebug("remainder: " + remainder)
 		var dn = 0
 		var luxTotal = weekLuxTotal * fullWeeks
-		console.log("luxTotal (from full weeks) = " + weekLuxTotal + " * " + fullWeeks + " = " + luxTotal)
+		showDebug("luxTotal (from full weeks) = " + weekLuxTotal + " * " + fullWeeks + " = " + luxTotal)
 		
 		while (dn < remainder)
 			{const tcd = new Date(vars["start"])
@@ -251,7 +251,7 @@ function calculateAllowance()
 			 tcd.setDate(vars["start"].getDate() + dn)
 			 dayOfWeek = dayNames[tcd.getDay()]
 			 luxTotal = luxTotal + dayLuxTotals[dayOfWeek]
-			 console.log("luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
+			 showDebug("luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
 			 dn++}		
 
     dn = 0
@@ -291,7 +291,6 @@ function calculateAllowance()
 
 		document.getElementById('linkButton').href = link
 
-		console.log(resultStr)
 		resultsDetails.innerHTML = resultStr;
 		}
 
