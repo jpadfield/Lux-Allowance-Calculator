@@ -134,11 +134,11 @@ function extensionLuxAllowance ($d, $pd)
     "annual" => formInput("annual", "Annual Allowance", "text", false,
       6, 150, false, "Lux Hrs", 70, true),
     "luxlevel" => formInput("luxlevel", "Standard", "text", false, 6, 150,
-      "varUpdate", "Lux", 70, false, "Lux Levels"),
+      "luxUpdate", "Lux", 70, false, "Lux Levels"),
     "maintenance" => formInput("maintenanceLux", "Cleaning/Security",
-      "text", false, 6, 150, "varUpdate", "Lux", 70, false),
+      "text", false, 6, 150, "luxUpdate", "Lux", 70, false),
     "overnight" => formInput("overnightLux", "Overnight", "text", false,
-      6, 150, "varUpdate", "Lux", 70, false)
+      6, 150, "luxUpdate", "Lux", 70, false)
     );
     
 		//do we need tooltips?			

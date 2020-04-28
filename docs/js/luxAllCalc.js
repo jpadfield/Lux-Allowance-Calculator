@@ -21,7 +21,7 @@ then.setDate(now.getDate() + 6)
 
 var vars = {'start':now, 'end':then, 'type':false,
 	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
-	'overnightLux':false}
+	'overnightLux':false, 'maxLux':false}
 
 for (var key in vars)
 	{if (urlParams.has(key))
@@ -30,15 +30,17 @@ for (var key in vars)
 		 else
 			{vars[key] = urlParams.get(key)}}}
 
-const dayNames = [
-	'sunday',
-	'monday',
-	'tuesday',
-	'wednesday',
-	'thursday',
-	'friday',
-	'saturday'
-	]
+var dayLuxTotals = {	
+	sunday:0,
+	monday:0,
+	tuesday:0,
+	wednesday:0,
+	thursday:0,
+	friday:0,
+	saturday:0
+	};
+
+const dayNames = Object.keys(dayLuxTotals);
 
 function buildDropdowns () {
 		// ------------------------------------------------------- //
@@ -70,12 +72,27 @@ function capitalizeFirstLetter(str) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
-function varUpdate (inputID)
+function luxUpdate (inputID)
+	{var cInput = document.getElementById(inputID);
+	 vars[inputID] = parseInt(cInput.value);
+	 luxValidate (inputID);	
+	 calculateAllowance()}
+
+function luxValidate (inputID)
 	{
-	var cInput = document.getElementById(inputID);
-	$(cInput).addClass("alert alert-warning");
-	vars[inputID] = parseInt(cInput.value);
-	calculateAllowance()
+	console.log("luxValidate ("+inputID+")")
+	var inputLU = document.getElementById('luxlevel');
+	$(inputLU).removeClass("alert-success alert-danger alert-warning");
+	
+	if (!vars[inputID] || vars[inputID] == use[inputID])
+		{vars[inputID] = parseInt(use[inputID]);}
+	else if (vars[inputID] > vars['maxLux'])
+		{console.log (inputID + " limited to the value of maxLux: "+vars['maxLux']);
+		 vars[inputID] = parseInt(vars['maxLux']);
+		 $(inputLU).addClass("alert alert-danger");}
+	else
+		{$(inputLU).addClass("alert alert-warning");}	
+	inputLU.value = vars[inputID];
 	}
 	
 function typeUpdate()
@@ -164,21 +181,29 @@ function populateInputs()
 		if (key !== "default")
 			{str = str + "<br/>&nbsp;&nbsp;&nbsp;&nbsp; + " + capitalizeFirstLetter(key) + ": open for "+ ca["openingHours"] + " hrs , plus an extra " + ca["maintenance"] + " hrs"}
 		else
-			{str = str + "Open for " + ca["openingHours"] + " hrs a day, with an extra " + ca["maintenance"] + " hrs for cleaning and security activities"}
+			{str = str + "Open for " + ca["openingHours"] + " hrs a day, with an extra " + ca["maintenance"] + " hrs for cleaning, maintenance and security activities"}
 		}
 
 	displayDetails = document.getElementById('profileDetails');
 	displayDetails.innerHTML = str;
 		
+	if (!vars['maxLux'])
+		{vars['maxLux'] = parseInt(use['maxLux']);}
+		
 	if (!vars['annual'])
 		{vars['annual'] = parseInt(use['annual']);}
 	inputAN.value = vars['annual'];
 
-	if (!vars['luxlevel'] || vars['luxlevel'] == use['luxlevel'])
+	luxValidate ('luxlevel');
+	/*if (!vars['luxlevel'] || vars['luxlevel'] == use['luxlevel'])
 		{vars['luxlevel'] = parseInt(use['luxlevel']);}
+	else if (vars['luxlevel'] > vars['maxLux'])
+		{console.log ("luxlevel limited to the value of maxLux: "+vars['maxLux']);
+		 vars['luxlevel'] = parseInt(vars['maxLux']);
+		 $(inputLL).addClass("alert alert-danger");}
 	else
-		{$(inputLL).addClass("alert alert-warning");}
-	inputLL.value = vars['luxlevel'];
+		{$(inputLL).addClass("alert alert-warning");}	
+	inputLL.value = vars['luxlevel'];*/
 
 	if (!vars['maintenanceLux'] || vars['maintenanceLux'] == use['maintenanceLux'])
 		{vars['maintenanceLux'] = parseInt(use['maintenanceLux']);}
@@ -195,70 +220,78 @@ function populateInputs()
 	calculateAllowance()
 	}
 
+function dayLuxTotal (cday)
+	{
+	// vars and prof are global variables
+
+	if (typeof prof[cday] !== 'undefined') {var cp = prof[cday]}
+	else	{var cp = prof["default"]}
+
+	var dtotal =
+		(vars["luxlevel"] * cp["openingHours"]) + // Standard opening times for this day
+		(vars['maintenanceLux'] * cp["maintenance"]) + // Opening for cleaning and or security checks
+		(vars['overnightLux'] * (24 - cp["openingHours"] - cp["maintenance"])); //overnight light levels
+
+	dayLuxTotals[cday] = dtotal
+	return (dtotal)
+	}
 	
 function calculateAllowance()
 		{
+		console.log("calculateAllowance")
+		console.log(vars)
+		console.log(prof)
+		
 		// Formulate the Difference between two dates 
 		diff = (vars["end"] - vars["start"])/1000; // return seconds
 		days = Math.floor(diff / (60*60*24)) + 1;
-		fullWeeks = Math.floor(days / 7);
-		remainder = days - (fullWeeks * 7);
-		
-		var dn = 0
-		
-		while (dn < remainder)
-			{
-			const tcd = new Date(vars["start"])
-			const tcurrentDate = vars["start"].getDate()
-			tcd.setDate(vars["start"].getDate() + dn)
-			dayOfWeek = dayNames[tcd.getDay()]
-			console.log(dayOfWeek)
-			dn++
-			}		
-		
 		var allowance = Math.floor(use["annual"] * (days/365));
 
+		var t0 = performance.now()
+		
+		fullWeeks = Math.floor(days / 7);
+		remainder = days - (fullWeeks * 7);
+
+		var cluxvals = {}
+		var weekLuxTotal = 0;
+		
+		dayNames.forEach(function (item, index) {
+			weekLuxTotal = weekLuxTotal + dayLuxTotal (item);
+			});
+
+		console.log(dayLuxTotals)
+		console.log("weekLuxTotal: " + weekLuxTotal)
+		console.log("days: " + days)
+		console.log("fullWeeks: " + fullWeeks)
+		console.log("remainder: " + remainder)
+		var dn = 0
+		var luxTotal = weekLuxTotal * fullWeeks
+		console.log("luxTotal (from full weeks) = " + weekLuxTotal + " * " + fullWeeks + " = " + luxTotal)
+		
+		while (dn < remainder)
+			{const tcd = new Date(vars["start"])
+			 const tcurrentDate = vars["start"].getDate()
+			 tcd.setDate(vars["start"].getDate() + dn)
+			 dayOfWeek = dayNames[tcd.getDay()]
+			 luxTotal = luxTotal + dayLuxTotals[dayOfWeek]
+			 console.log("luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
+			 dn++}		
+
     dn = 0
-    var luxTotal = 0
-
-    while (dn < days)
-			{
-			const cd = new Date(vars["start"])
-			const currentDate = vars["start"].getDate()
-			cd.setDate(vars["start"].getDate() + dn)
-			dayOfWeek = dayNames[cd.getDay()]
-
-			if (typeof prof[dayOfWeek] !== 'undefined') {
-				var cp = prof[dayOfWeek]
-				}
-			else	{
-				var cp = prof["default"]
-				}
-			
-			if (vars["luxlevel"]) {var ll = vars["luxlevel"]}
-			else	{var ll = use["ave"]}
-			
-			luxTotal = luxTotal +
-				(vars["luxlevel"] * cp["openingHours"]) + // Standard opening times for this day
-				(vars['maintenanceLux'] * cp["maintenance"]) + // Opening for cleaning and or security checks
-				(vars['overnightLux'] * (24 - cp["openingHours"] - cp["maintenance"])); //overnight light levels
-
-			dn++;
-			}
-
+		
 		var resultsDetails = document.getElementById('result');
 		$(resultsDetails).removeClass("alert-success alert-danger");
 		
 		remainder = Math.floor (allowance - luxTotal)
 
-		var tag = "Exhibition (" + days + " days): Allowance: " + allowance + " Lux Hrs<br/>"
+		var resultStr = "Exhibition (" + days + " days): Allowance: " + allowance + " Lux Hrs<br/>"
 				
 		if (remainder >= 0)
-			{tag = tag + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ remainder +" Lux Hrs "+
+			{resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ remainder +" Lux Hrs "+
 				" (" +(remainder/vars["luxlevel"]).toFixed(2)+ " hrs @ "+vars["luxlevel"]+"lux) to use for additional events.<br/>";
 			 $(resultsDetails).addClass("alert-success");}
 		else
-			{tag = tag + "Allocated: " + luxTotal + " Lux Hrs<br/>CAUTION - OVEREXPOSURE BY: " + (remainder * -1) + " Lux Hrs<br/>";
+			{resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs<br/>CAUTION - OVEREXPOSURE BY: " + (remainder * -1) + " Lux Hrs<br/>";
 			 $(resultsDetails).addClass("alert-danger");}
 
 		link = "?"
@@ -271,8 +304,9 @@ function calculateAllowance()
 			}
 
 		document.getElementById('linkButton').href = link
-		
-		resultsDetails.innerHTML = tag;
+
+		console.log(resultStr)
+		resultsDetails.innerHTML = resultStr;
 		}
 
 function getDateStr(dateVal)
