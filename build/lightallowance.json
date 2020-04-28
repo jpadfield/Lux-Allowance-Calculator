@@ -1,0 +1,72 @@
+{
+	"object-types": {
+		"Stable artworks (Old)": {
+			"annual": 650000,
+			"comment": "Stuff 01",
+			"luxlevel": 150,
+			"maxLux": 250,
+			"overnightLux": 10,
+			"maintenanceLux": 150
+		},
+		"Stable artworks": {
+			"annual": 600000,
+			"comment": "Stuff 02",
+			"luxlevel": 150,
+			"maxLux": 250,
+			"overnightLux": 10,
+			"maintenanceLux": 50
+		},
+		"Light Sensitive artworks (Old)": {
+			"annual": 208000,
+			"comment": "Stuff 03",
+			"luxlevel": 50,
+			"maxLux": 50,
+			"overnightLux": 5,
+			"maintenanceLux": 50
+		},
+		"Light Sensitive artworks": {
+			"annual": 150000,
+			"comment": "Stuff 04",
+			"luxlevel": 50,
+			"maxLux": 50,
+			"overnightLux": 5,
+			"maintenanceLux": 35
+		}
+	},
+	"light-profiles": {
+		"NG Standard": {
+			"default": {
+				"openingHours": 8,
+				"maintenance": 2
+			},
+			"friday": {
+				"openingHours": 11,
+				"maintenance": 2
+			}
+		},
+		"NG Standard 2": {
+			"default": {
+				"openingHours": 8,
+				"maintenance": 1
+			},
+			"friday": {
+				"openingHours": 11,
+				"maintenance": 1
+			}
+		},
+		"NG Test": {
+			"default": {
+				"openingHours": 8,
+				"maintenance": 2
+			},
+			"friday": {
+				"openingHours": 11,
+				"maintenance": 2
+			},
+			"saturday": {
+				"openingHours": 11,
+				"maintenance": 2
+			}
+		}
+	}
+}

@@ -43,138 +43,97 @@
 			 <div class="col-12 col-md-12">          
 				
 				<div class="jumbotron"><h2>Lux Allowance - <b>Calculator</b></h2></div><div class="row"><div class="col-12 col-lg-12"></div><!--/span--></div><!--/row-->    <div class="row"><div class="col-12 col-lg-12"><form>
-<div class="form-group mb-4"> <!-- Start Form -->
-	<div class="container"> <!-- Start Container -->
+  <div class="form-group mb-4"> <!-- Start Form -->
+    <div class="container"> <!-- Start Container -->
 
-		
-		<div class="row">
-			<div class="col-md-12">	
-				<h5>Dates</h5>
-			</div></div>
+      <div class="row"><div class="col-md-12"><h5>Dates</h5></div></div>
 			
-		<div class="row ">  <!-- Start Row -->
-
-			<div class="col-md-6">						
-				<div class="datepicker date input-group p-0 shadow-sm">
-					<div class="input-group-prepend">
-						<span class="input-group-text" style="width:75px;" id="basic-addonS">Start</span>
-					</div>
-					<input onchange="dateUpdate()" type="text" placeholder="Start date" class="form-control py-4 px-4" id="start">
-					<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
-				</div>
-			</div>
-			
-			<div class="col-md-6">   
-				<div class="datepicker date input-group p-0 shadow-sm">
-					
-					<div class="input-group-prepend">
-						<span class="input-group-text" style="width:75px;" id="basic-addonE">End</span>
-					</div>
-					<input onchange="dateUpdate()" type="text" placeholder="End date" class="form-control py-4 px-4" id="end">
-					<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
-			</div>
-			
-		</div>
-
-		</div>
-		
-		<div class="row">
-			<div class="col-md-12">	
-				<h5>Opening Hours</h5>
-		</div></div>
-			
-		<div class="row" style="margin-bottom: 1rem;">
-			<div class="input-group col-md-12">					
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;" id="basic-addon2">Opening Profile</span>
-				</div>				
-				<select onchange="profUpdate()" class="form-control" id="prof" aria-label="Light Sensitivity" aria-describedby="basic-addon2">
-				</select>
-			</div>
-			
-		</div>
-		
-
-		<div class="row" style="padding-left:15px;padding-right:15px;">
-<div class="alert alert-info col-md-12" role="alert" id="profileDetails">
-  ... selected profile details
-</div>
-	</div>
-		
-		<div class="row">
-			<div class="col-md-12">	
-				<h5>Object Type - Lux Levels</h5>
-		</div></div>
-					
-		<div class="row" style="margin-bottom: 1rem;">
-			<div class="input-group col-md-12">				
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;" id="basic-addon1">Object Type</span>
-				</div>			
-				<select onchange="typeUpdate()" class="form-control" id="type" aria-label="Light Sensitivity" aria-describedby="basic-addon1">
-				</select>
-			</div>
-			
-		</div>
-
-		<div class="row" style="padding-left:15px;padding-right:15px;">
-<div class="alert alert-info col-md-12" role="alert" id="typeComment">
-  ... brief description of this object type
-</div>
-	</div>
-	
-		<div class="row ">
-			
-			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Total annual light exposure allowance in lux hours.">
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;">Annual Allowance</span>
-				</div>
-				<input type="text" class="form-control" id="annual" placeholder="Annual Lux Allowance" aria-label="Annual Lux Allowance" aria-describedby="basic-addon5a"  readonly>				
-				<div class="input-group-append">
-					<span style="min-width:70px;"  class="input-group-text" id="basic-addon5a">Lux Hrs</span>
-				</div>
-			</div>
-						
-			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Standard operating lux Level.">
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;">Standard</span>
-				</div>
-				<input onChange="varUpdate (this.id)" type="text" class="form-control" id="luxlevel" placeholder="Lux Levels" aria-label="Exhibition Lux Level" aria-describedby="basic-addon5">				
-				<div class="input-group-append">
-					<span style="min-width:70px;"  class="input-group-text" id="basic-addon5">Lux</span>
-				</div>
-			</div>
-			
-			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Additional time for cleaning, security and other administration checks.">				
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;">Cleaning/Security</span>
-				</div>
-				<input onChange="varUpdate (this.id)"  type="text" class="form-control" id="maintenanceLux" placeholder="Maintenance Level" aria-label="Maintenance Lux Level" aria-describedby="basic-addon6">				
-				<div class="input-group-append">
-					<span style="min-width:70px;"  class="input-group-text" id="basic-addon6">Lux</span>
-				</div>
-			</div>
-			
-			<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Average overnight lux level when the exhibition is completely closed.">				
-				<div class="input-group-prepend">
-					<span class="input-group-text" style="width:150px;">Overnight</span>
-				</div>				
-				<input onChange="varUpdate (this.id)"  type="text" class="form-control" id="overnightLux" placeholder="Overnight" aria-label="Opening Maintenance" aria-describedby="basic-addon7">	
-				<div class="input-group-append">
-					<span style="min-width:70px;" class="input-group-text" id="basic-addon7">Lux</span>
-				</div>
-			</div>
-		</div>
-
-
-					<div class="row" style="padding-left:15px;padding-right:15px;margin-top: 2rem;">
-<div class="alert alert-success col-md-12" role="alert" id="result">
-  ... the calculated results
-</div>
-	</div>
-  <div class="row" style="padding-left:15px;padding-right:15px;">
-    <a class="btn btn-outline-secondary" id="linkButton" href="#" role="button">Shareable Link</a>
+      <div class="row ">  <!-- Start Row -->
+          <div class="input-group col-md-6">						
+    <div class="datepicker date input-group p-0 shadow-sm">
+      <div class="input-group-prepend"><span class="input-group-text" style="width:75px;" id="basic-addon-start">Start</span></div>
+			<input onchange="dateUpdate(this.id)" type="text" placeholder="Start date" class="form-control py-4 px-4" id="start"  aria-label="Start" aria-describedby="basic-addon-start" >
+			<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
+    </div>
   </div>
+          <div class="input-group col-md-6">						
+    <div class="datepicker date input-group p-0 shadow-sm">
+      <div class="input-group-prepend"><span class="input-group-text" style="width:75px;" id="basic-addon-end">End</span></div>
+			<input onchange="dateUpdate(this.id)" type="text" placeholder="End date" class="form-control py-4 px-4" id="end"  aria-label="End" aria-describedby="basic-addon-end" >
+			<div class="input-group-append"><span class="input-group-text px-4"><i class="fa fa-calendar-o"></i></span></div>
+    </div>
+  </div>			
+      </div>
+
+      <div class="row"><div class="col-md-12"><h5>Opening Hours</h5></div></div>
+			
+      <div class="row" style="margin-bottom: 1rem;">
+          <div class="input-group col-md-12">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-prof">Opening Profile</span></div>
+			<select onchange="profUpdate(this.id)" class="form-control" id="prof"  aria-label="Opening Profile" aria-describedby="basic-addon-prof" ></select>
+			
+    
+  </div>
+      </div>		
+
+        <div class="row" style="padding-left:15px;padding-right:15px;margin-top:0rem;">
+    <div class="alert alert-info col-md-12" role="alert" id="profileDetails">
+      ... selected profile details</div></div>
+      <div class="row"><div class="col-md-12"><h5>Object Type - Lux Levels</h5></div></div>
+					
+      <div class="row" style="margin-bottom: 1rem;">
+          <div class="input-group col-md-12">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-type">Object Type</span></div>
+			<select onchange="typeUpdate(this.id)" class="form-control" id="type"  aria-label="Object Type" aria-describedby="basic-addon-type" ></select>
+			
+    
+  </div>			
+      </div>		
+
+        <div class="row" style="padding-left:15px;padding-right:15px;margin-top:0rem;">
+    <div class="alert alert-info col-md-12" role="alert" id="typeComment">
+      ... brief description of this object type</div></div>
+    
+      <div class="row ">
+          <div class="input-group col-md-6">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-annual">Annual Allowance</span></div>
+			<input onChange="(this.id)" placeholder="" type="text" class="form-control" id="annual"  aria-label="Annual Allowance" aria-describedby="basic-addon-annual" readonly>
+			<div class="input-group-append"><span style="min-width:70px;"  class="input-group-text" id="basic-addon-annual">Lux Hrs</span></div>
+    
+  </div>
+          <div class="input-group col-md-6">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-luxlevel">Standard</span></div>
+			<input onChange="varUpdate(this.id)" placeholder="Lux Levels" type="text" class="form-control" id="luxlevel"  aria-label="Standard" aria-describedby="basic-addon-luxlevel" >
+			<div class="input-group-append"><span style="min-width:70px;"  class="input-group-text" id="basic-addon-luxlevel">Lux</span></div>
+    
+  </div>
+          <div class="input-group col-md-6">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-maintenanceLux">Cleaning/Security</span></div>
+			<input onChange="varUpdate(this.id)" placeholder="" type="text" class="form-control" id="maintenanceLux"  aria-label="Cleaning/Security" aria-describedby="basic-addon-maintenanceLux" >
+			<div class="input-group-append"><span style="min-width:70px;"  class="input-group-text" id="basic-addon-maintenanceLux">Lux</span></div>
+    
+  </div>
+          <div class="input-group col-md-6">						
+    
+      <div class="input-group-prepend"><span class="input-group-text" style="width:150px;" id="basic-addon-overnightLux">Overnight</span></div>
+			<input onChange="varUpdate(this.id)" placeholder="" type="text" class="form-control" id="overnightLux"  aria-label="Overnight" aria-describedby="basic-addon-overnightLux" >
+			<div class="input-group-append"><span style="min-width:70px;"  class="input-group-text" id="basic-addon-overnightLux">Lux</span></div>
+    
+  </div>
+      </div>
+
+        <div class="row" style="padding-left:15px;padding-right:15px;margin-top:1rem;">
+    <div class="alert alert-success col-md-12" role="alert" id="result">
+      ... the calculated results</div></div>
+					
+    <div class="row" style="padding-left:15px;padding-right:15px;">
+      <a class="btn btn-outline-secondary btn-sm" id="linkButton" href="#" role="button">Shareable Link</a>
+    </div>
   
   </div> <!-- End Container -->
 </div><!-- End Form -->
@@ -203,25 +162,27 @@
 	<script src="js/luxAllCalc.js"></script>
     <script>
 			
+    types = {"Stable artworks (Old)":{"annual":650000,"comment":"Stuff 01","luxlevel":150,"maxLux":250,"overnightLux":10,"maintenanceLux":150},"Stable artworks":{"annual":600000,"comment":"Stuff 02","luxlevel":150,"maxLux":250,"overnightLux":10,"maintenanceLux":50},"Light Sensitive artworks (Old)":{"annual":208000,"comment":"Stuff 03","luxlevel":50,"maxLux":50,"overnightLux":5,"maintenanceLux":50},"Light Sensitive artworks":{"annual":150000,"comment":"Stuff 04","luxlevel":50,"maxLux":50,"overnightLux":5,"maintenanceLux":35}}
+    profiles = {"NG Standard":{"default":{"openingHours":8,"maintenance":2},"friday":{"openingHours":11,"maintenance":2}},"NG Standard 2":{"default":{"openingHours":8,"maintenance":1},"friday":{"openingHours":11,"maintenance":1}},"NG Test":{"default":{"openingHours":8,"maintenance":2},"friday":{"openingHours":11,"maintenance":2},"saturday":{"openingHours":11,"maintenance":2}}}
+    
 			function onLoad() {
-				$(function () { // INITIALIZE DATEPICKER PLUGIN
-  $('.datepicker').datepicker({
-    clearBtn: true,
-    format: "yyyy-mm-dd"});});
+				
 
-$(function () {
-  $('[data-toggle="tooltip"]').tooltip()
-})
+  $(function () { // INITIALIZE DATEPICKER PLUGIN
+    $('.datepicker').datepicker({
+      clearBtn: true,
+      format: "yyyy-mm-dd"});});
 
-buildDropdowns ()
-		
-$.when(
-  $.getJSON("js/object-types.json", function(data) {types = data;}),
-  $.getJSON("js/light-profiles.json", function(data) {profiles = data;})
-	).then(function()
-		{use = types[vars["type"]]
-		 prof = profiles[vars["prof"]];
-		 populateInputs()});$(function() {
+  $(function () {
+    $('[data-toggle="tooltip"]').tooltip()})
+
+  buildDropdowns ()
+  
+  $(function () {
+		use = types[vars["type"]]
+		prof = profiles[vars["prof"]];
+		populateInputs()});
+  $(function() {
   // ------------------------------------------------------- //
   // Multi Level dropdowns
   // ------------------------------------------------------ //
