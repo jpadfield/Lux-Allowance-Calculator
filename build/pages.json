@@ -13,12 +13,12 @@
 	}
 "instructions": {
 	"title": "Lux Allowance - <b>Instructions</b>",
-	"content": "",
+	"content": "<p>further details</p>",
 	"content right": ""
 	},
 "about": {
 	"title": "Lux Allowance - <b>About</b>",
-	"content": "",
+	"content": "<p>further details</p>",
 	"content right": ""
 	}
 }
