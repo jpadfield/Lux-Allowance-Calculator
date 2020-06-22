@@ -34,6 +34,16 @@
 		}
 	},
 	"light-profiles": {
+		"NG Standard (COVID)": {
+			"default": {
+				"openingHours": 5,
+				"maintenance": 2
+			},
+			"friday": {
+				"openingHours": 10,
+				"maintenance": 2
+			}
+		},		
 		"NG Standard": {
 			"default": {
 				"openingHours": 8,
