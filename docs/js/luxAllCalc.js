@@ -8,7 +8,26 @@ var newInputs = true;
 var link
 
 const queryString = window.location.search;
-const urlParams = new URLSearchParams(queryString);
+
+var ua = window.navigator.userAgent;
+var trident = ua.indexOf('Trident/');
+if (trident > 0) {
+  // IE 11 => return version number
+  //var rv = ua.indexOf('rv:');
+  //return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
+  const urlParam = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null){
+       return null;
+    }
+    else {
+       return decodeURI(results[1]) || 0;
+    }
+}
+  }
+else {
+	const urlParams = new URLSearchParams(queryString);}
+
 
 var now = new Date()
 var then = new Date(now)
