@@ -8,44 +8,50 @@ var newInputs = true;
 var link
 var urlParams
 
-const queryString = window.location.search;
+var now = new Date()
+console.log(now);
+var then = new Date(now)
+then.setDate(now.getDate() + 6)
 
+var ie11 = false;
 var ua = window.navigator.userAgent;
 var trident = ua.indexOf('Trident/');
-if (trident > 0) {
-  // IE 11 => return version number
-  //var rv = ua.indexOf('rv:');
-  //return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-  urlParam = function(name){
+if (trident > 0) {ie11 = true;}
+
+const queryString = window.location.search;
+
+var vars = {'start':now, 'end':then, 'type':false,
+	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
+	'overnightLux':false, 'maxLux':false, 'debug':false}
+
+// required if people still using ie11	
+if (ie11) {
+  checkurlParams = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null){
        return null;
     }
     else {
        return decodeURI(results[1]) || 0;
-    }
-}
+    }}
 
+  for (var key in vars)
+	{if (checkurlParams(key))
+		{if (key == "start" || key == "end")
+			{vars[key] = new Date(checkurlParams(key) + "T00:00")}
+		 else
+			{vars[key] = checkurlParams(key)}}}
   }
 else {
-	urlParams = new URLSearchParams(queryString);}
-	
-console.log(urlParams);
-
-var now = new Date()
-var then = new Date(now)
-then.setDate(now.getDate() + 6)
-
-var vars = {'start':now, 'end':then, 'type':false,
-	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
-	'overnightLux':false, 'maxLux':false, 'debug':false}
-
-for (var key in vars)
+	urlParams = new URLSearchParams(queryString);
+	for (var key in vars)
 	{if (urlParams.has(key))
 		{if (key == "start" || key == "end")
 			{vars[key] = new Date(urlParams.get(key) + "T00:00")}
 		 else
-			{vars[key] = urlParams.get(key)}}}
+			{vars[key] = urlParams.get(key)}}}}
+
+
 
 var dayLuxTotals = {	
 	sunday:0,
@@ -160,7 +166,7 @@ function populateInputs()
 	var selectType = document.getElementById("type");
 	var selectProf = document.getElementById("prof");
 	var inputAN = document.getElementById('annual');
-
+		
 	if (newInputs) {
 		for (var key in types)
 			{var el = document.createElement("option"); 
@@ -216,6 +222,11 @@ function populateInputs()
 	luxValidate ('luxlevel');
 	luxValidate ('maintenanceLux');
 	luxValidate ('overnightLux');
+	
+	if(ie11) /*required to ensure values are displayed*/
+		{showDebug("Updating padding on date inputs");
+		 $( inputStart ).addClass('ie11date');
+		 $( inputEnd ).addClass('ie11date')}
 
 	calculateAllowance()
 	}
@@ -243,7 +254,8 @@ function calculateAllowance()
 		showDebug(prof)
 		
 		// Formulate the Difference between two dates 
-		diff = (vars["end"] - vars["start"])/1000; // return seconds
+		diff = Math.ceil((vars["end"] - vars["start"])/1000); // return seconds
+		showDebug(diff)
 		days = Math.floor(diff / (60*60*24)) + 1;
 		var allowance = Math.floor(use["annual"] * (days/365));
 

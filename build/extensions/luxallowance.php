@@ -36,7 +36,7 @@ function formInput($name, $title, $type, $value=false, $cols=6, $nlw = 75, $jsfn
       'input-group-text px-4"><i class="fa fa-calendar-o"></i>'.
       '</span></div>';
     $input = '<input onchange="'.$jsfn.'(this.id)" type="text" placeholder="'.
-      $title.' date" class="form-control py-4 px-4" id="'.$name.'" '.
+      $title.' date" class="form-control py-4 px-4" id="'.$name.'" '. 
       $describeBy.' '.$readonly.'>';
     }
   else if ($type == "select")

@@ -1,4 +1,10 @@
-    pre code {
+.ie11date
+	{
+	padding-top: 0.5rem !important;
+	padding-bottom: 0.5rem !important;
+	}
+
+pre code {
             overflow-x: auto;
             white-space: pre-wrap;
             white-space: -moz-pre-wrap;
