@@ -24,7 +24,7 @@ function formInput($name, $title, $type, $value=false, $cols=6, $nlw = 75, $jsfn
   if ($trTxt)
     {$tagRight = '<div class="input-group-append"><span style="'.
       'min-width:'.$trw.'px;"  class="input-group-text" id="basic-addon-'.
-      $name.'">'.$trTxt.'</span></div>';}
+      $name.'-units">'.$trTxt.'</span></div>';}
   else
     {$tagRight = "";}
 
