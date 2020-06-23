@@ -24,10 +24,12 @@ if (trident > 0) {
        return decodeURI(results[1]) || 0;
     }
 }
+
   }
 else {
 	const urlParams = new URLSearchParams(queryString);}
-
+	
+console.log(urlParam);
 
 var now = new Date()
 var then = new Date(now)
