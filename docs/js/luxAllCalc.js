@@ -6,6 +6,7 @@ var use
 var profs
 var newInputs = true;
 var link
+var urlParams
 
 const queryString = window.location.search;
 
@@ -15,7 +16,7 @@ if (trident > 0) {
   // IE 11 => return version number
   //var rv = ua.indexOf('rv:');
   //return parseInt(ua.substring(rv + 3, ua.indexOf('.', rv)), 10);
-  const urlParam = function(name){
+  urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
     if (results == null){
        return null;
@@ -27,9 +28,9 @@ if (trident > 0) {
 
   }
 else {
-	const urlParams = new URLSearchParams(queryString);}
+	urlParams = new URLSearchParams(queryString);}
 	
-console.log(urlParam);
+console.log(urlParams);
 
 var now = new Date()
 var then = new Date(now)
