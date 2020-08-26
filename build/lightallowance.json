@@ -93,6 +93,12 @@
 				"openingHours": 10.5,
 				"maintenance": 2
 			}
+		},
+		"Extra 2": {
+			"default": {
+				"openingHours": 8,
+				"maintenance": 1
+			}
 		}
 	}
 }
