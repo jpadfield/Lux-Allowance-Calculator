@@ -99,6 +99,16 @@
 				"openingHours": 8,
 				"maintenance": 1
 			}
+		},
+		"Extra 3": {
+			"default": {
+				"openingHours": 8,
+				"maintenance": 0
+			},
+			"monday": {
+				"openingHours": 0,
+				"maintenance": 0
+			}
 		}
 	}
 }
