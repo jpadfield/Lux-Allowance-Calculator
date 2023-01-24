@@ -13,10 +13,10 @@ This software is currently being developed with the support of the following pro
 [<img height="64px" src="docs/graphics/IPERION-HS%20Logo.png" alt="IPERION-HS">](https://www.iperionhs.eu/)<br/>
 [<img height="32px" src="docs/graphics/iperionhs-eu-tag2.png" alt="IPERION-HS">](https://www.iperionhs.eu/)
 
-### The [National Gallery](https://www.nationalgallery.org.uk) project
+### [The National Gallery](https://www.nationalgallery.org.uk)
 [<img height="64px" src="docs/graphics/ng-logo-black-100x40.png" alt="The National Gallery">](https://www.nationalgallery.org.uk/research)
 
 This software was initially developed, prepared and tested as part of:
 
-### The [National Gallery](https://www.nationalgallery.org.uk) project
+### [The National Gallery](https://www.nationalgallery.org.uk)
 [<img height="64px" src="docs/graphics/ng-logo-black-100x40.png" alt="The National Gallery">](https://www.nationalgallery.org.uk/research)
