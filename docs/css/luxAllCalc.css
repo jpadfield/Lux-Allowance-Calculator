@@ -28,7 +28,8 @@ pre code {
 }
 
 .datepicker {
-    margin-bottom: 1rem;
+    margin-bottom: 0rem;
+    padding: 0px; !important;
 }
 
 /*
@@ -45,6 +46,11 @@ pre code {
 
 input.form-control {
     border-radius: 30rem 0 0 30rem;
+    border: none;
+}
+
+select.form-select {
+    border-radius: 0rem;
     border: none;
 }
 

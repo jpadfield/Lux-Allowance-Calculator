@@ -344,3 +344,66 @@ function pad(num, size) {
     while (s.length < size) s = "0" + s;
     return s;
 }
+
+
+// JS plus relates html based on example provided at: https://bootstrapfriendly.com/blog/dynamically-add-or-remove-form-input-fields-using-jquery/ (26/09/22
+
+// Need to restrict the number of rows to 7 and explore how to limit the select inputs based on previous values
+///======Clone method
+$(document).ready(function () {
+  $("body").on("click", ".add_node_btn_frm_field", function (e) {
+    e.preventDefault();
+    var index = $(e.target).closest(".form_field_outer").find(".form_field_outer_row").length + 1;
+    var cloned_el = $(e.target).closest(".form_field_outer_row").clone(true);
+
+    $(e.target).closest(".form_field_outer").last().append(cloned_el).find(".remove_node_btn_frm_field:not(:first)").prop("disabled", false);
+
+    $(e.target).closest(".form_field_outer").find(".remove_node_btn_frm_field").first().prop("disabled", true);
+    
+    //console.log($(e.target).closest(".form_field_outer").first())
+/*
+    var newRow = $(e.target)
+      .closest(".form_field_outer")
+      .find(".form_field_outer_row")
+      .last();
+      
+    newRow.find("input[type='date']")
+      .attr("id", "date_" + index);    
+
+    newRow.find("select")
+      .attr("id", "project_" + index);
+      
+    newRow.find("input[placeholder='task ...']")
+      .attr("id", "task_" + index);
+      
+    newRow.find("input[placeholder='hours ...']")
+      .attr("id", "hours_" + index);
+          
+    newRow.find("input[placeholder='comment ...']")
+      .attr("id", "comment_" + index);
+*/
+    console.log("This One");
+    //count++;
+  });
+});
+
+/*
+$(document).ready(function(){ $("body").on("click",".add_new_frm_field_btn", function (e){ 
+  e.preventDefault(); 
+  var index = $(".form_field_outer").find(".form_field_outer_row").length + 1;
+        
+  $.ajax({ method: "POST", url: "ajax.php", 
+    data: {'build': 'eventrow', 'id':index},
+    }).done(function( data ) { 
+      $(".form_field_outer").append(data); $(".form_field_outer").find(".remove_node_btn_frm_field:not(:first)").prop("disabled", false); $(".form_field_outer").find(".remove_node_btn_frm_field").first().prop("disabled", true);
+      }); 
+       
+   }); });*/
+
+$(document).ready(function () {  
+  //===== delete the form field row
+  $("body").on("click", ".remove_node_btn_frm_field", function () {
+    $(this).closest(".form_field_outer_row").remove();
+    //console.log("success");
+  });
+});
