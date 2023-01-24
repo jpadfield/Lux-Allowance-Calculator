@@ -3,7 +3,7 @@
 This is an interactive live modelling system which can automatically convert simple tab separated triples into graphical models using the [mermaid library](https://mermaid-js.github.io/mermaid). 
 
 ## Instructions
-Full [details and instructions](https://jpadfield.github.io/Lux-Allowance-Calculator/instructions.html) relating to how this system works is being developed, however the live system is reasonably self explanitory: [Lux-Allowance Calculator](https://jpadfield.github.io/Lux-Allowance-Calculator/), with all of the related code presented here in [GitHub](https://github.com/jpadfield/Lux-Allowance-Calculator/).
+Full [details and instructions](https://jpadfield.github.io/Lux-Allowance-Calculator/instructions.html) relating to how this system works are being developed, however the live system is reasonably self explanitory: [Lux-Allowance Calculator](https://jpadfield.github.io/Lux-Allowance-Calculator/), with all of the related code presented here in [GitHub](https://github.com/jpadfield/Lux-Allowance-Calculator/).
 
 ## Acknowledgement
 
