@@ -49,6 +49,10 @@ input.form-control {
     border: none;
 }
 
+input.form-control:read-only {
+    background: #e9ecef;
+}
+
 select.form-select {
     border-radius: 0rem;
     border: none;
@@ -69,4 +73,9 @@ input.form-control::placeholder {
 
 .datepicker-dropdown {
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+input.alert {
+    padding: 6px 12px 6px 12px !important;
+	margin: 0px !important;
 }

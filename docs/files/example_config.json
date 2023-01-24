@@ -1,0 +1,48 @@
+{
+	"object-types": {
+		"Special Collection 1": {
+			"annual": 250000,
+			"comment": "An example configuration file to demonstrate how additional predefined details can be used within the tool.",
+			"luxlevel": 75,
+			"maxLux": 100,
+			"overnightLux": 10,
+			"maintenanceLux": 50,
+			"period": 50
+		},
+		"Special Collection 2": {
+			"annual": 450000,
+			"comment": "A second example configuration file to also demonstrate how additional predefined details can be used within the tool.",
+			"luxlevel": 100,
+			"maxLux": 100,
+			"overnightLux": 10,
+			"maintenanceLux": 75,
+			"period": 100
+		}
+	},
+	"light-profiles": {		
+		"Example Opening Hours 1": {
+			"default": {
+				"openingHours": 10,
+				"maintenance": 1
+			},
+			"monday": {
+				"openingHours": 0,
+				"maintenance": 0
+			},
+			"friday": {
+				"openingHours": 4,
+				"maintenance": 1
+			}
+		},
+		"Example Opening Hours 2": {
+			"default": {
+				"openingHours": 7,
+				"maintenance": 1
+			},
+			"saturday": {
+				"openingHours": 11,
+				"maintenance": 1
+			}
+		}
+	}
+}

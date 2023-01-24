@@ -8,21 +8,27 @@ function titleRow ($str)
    return($str);}
 
 function formInput($name, $title, $type, $value=false, $cols=6, $tlw = 75, $jsfn="",
-  $trTxt=false, $trw=70, $readonly=false, $placeholder=false)
+  $trTxt=false, $trw=70, $readonly=false, $placeholder=false, $multiple=false, $extraClasses="")
   {
   
   $igExClass = "";
-     
-  ob_start();
-  echo <<<END
+  
+  
+  if ($title)
+    {
+    ob_start();
+    echo <<<END
     <span class="input-group-append" style="width:${tlw}px;" id="basic-addon-$name" for="$name">
       <span class="input-group-text d-block">
         $title
       </span>
     </span>	
 END;
-  $tagLeft = ob_get_contents();
-  ob_end_clean(); // Don't send output to client
+    $tagLeft = ob_get_contents();
+    ob_end_clean(); // Don't send output to client
+    }
+  else
+    {$tagLeft = "";}
 
   $describeBy = " aria-label=\"$title\" aria-describedby=\"basic-addon-$name\"";
     
@@ -34,18 +40,28 @@ END;
     $igExClass = "date datepicker";
     $trTxt = "<i class=\"fa-regular fa-calendar\"></i>";
     
-    $input = '<input onchange="'.$jsfn.'(this.id)" type="text" class="form-control" id="'.
-      $name.'" '.$describeBy.' '.$readonly.'/>';
+    $input = '<input onchange="'.$jsfn.'(this.id)" type="text" class="form-control '.$extraClasses.'" id="'.
+      $name.'" name="'.$name.'" '.$describeBy.' '.$readonly.'/>';
     }
   else if ($type == "select")
-    {    
-    $input = '<select onchange="'.$jsfn.'(this.id)" class="form-select" id="'.
-      $name.'" '.$describeBy.' '.$readonly.'></select>';
+    {
+    if ($readonly)
+      {$readonly = "disabled";}
+    
+    $input = '<select onchange="'.$jsfn.'(this.id)" class="form-select '.$extraClasses.'" id="'.
+      $name.'" name="'.$name.'" '.$describeBy.' '.$readonly.'>';
+      
+    if ($value)
+      {if (!is_array($value)) {$value = array($value => $value);}
+       foreach ($value as $k => $v)
+        {$input .= '<option value="'.$v.'">'.$v.'</option>';}}
+        
+    $input .= '</select>';
     }
   else //if ($type == "text")
     {
     $input = '<input onChange="'.$jsfn.'(this.id)" placeholder="'.$placeholder.'" '.
-      'type="text" class="form-control" id="'.$name.'" '.$describeBy.
+      'type="text" class="form-control '.$extraClasses.'" id="'.$name.'" name="'.$name.'" '.$describeBy.
       ' '.$readonly.'>';
     }
       
@@ -65,7 +81,7 @@ END;
 
   ob_start();
 	echo <<<END
-  <div class="col-$cols pb-2">
+  <div class="col-md-$cols col-sm-12 pb-2">
     <div style="border: 1px solid #e9ecef; border-top-right-radius: 30rem; border-bottom-right-radius: 30rem;">
       <div class="input-group $igExClass">
         $tagLeft						
@@ -99,9 +115,17 @@ function extensionLuxAllowance ($d, $pd)
 		{$dets = getRemoteJsonDetails($d["file"], false, true);}
   else
     {$dets = array();}
+    
+  $versions = array(
+    "bootstrap-datepicker" => "1.9.0",
+    "pako" => "2.1.0",
+    "base64" => "3.7.3"
+  );
   
-  $pd["extra_js_scripts"][] =
-			"https://unpkg.com/bootstrap-datepicker@1.9.0/dist/js/bootstrap-datepicker.min.js";
+  $pd["extra_js_scripts"][] = "https://unpkg.com/bootstrap-datepicker@".
+    $versions["bootstrap-datepicker"]."/dist/js/bootstrap-datepicker.min.js";
+  $pd["extra_js_scripts"][] = "https://cdn.jsdelivr.net/npm//pako@".$versions["pako"]."/dist/pako.min.js";
+  $pd["extra_js_scripts"][] = "https://cdn.jsdelivr.net/npm/js-base64@".$versions["base64"]."/base64.min.js";
   $pd["extra_js_scripts"][] =
 			"js/luxAllCalc.js";
 
@@ -145,14 +169,17 @@ function extensionLuxAllowance ($d, $pd)
     "prof" => formInput("prof", "Opening Profile", "select", false, 12, 150, "profUpdate", "", "30"),
     "type" => formInput("type", "Object Type", "select", false, 12, 150, "typeUpdate", "", "30"),
     "annual" => formInput("annual", "Annual Allowance", "text", false,
-      6, 150, false, "Lux Hrs", 70, true),
+      6, 150, "luxUpdate", "Lux Hrs", 70, true),
     "luxlevel" => formInput("luxlevel", "Standard", "text", false, 6, 150,
       "luxUpdate", "Lux", 70, false, "Lux Levels"),
     "maintenance" => formInput("maintenanceLux", "Cleaning/Security",
       "text", false, 6, 150, "luxUpdate", "Lux", 70, false),
     "overnight" => formInput("overnightLux", "Overnight", "text", false,
-      6, 150, "luxUpdate", "Lux", 70, false)
+      6, 150, "luxUpdate", "Lux", 70, false),
+    "period" => formInput("period", "Display Period", "text", false,
+      6, 150, "otherUpdate", "%", 70, false)
     );
+    
     		//do we need tooltips?			
 		//<div class="input-group col-md-6" data-toggle="tooltip" data-placement="top" title="Standard operating lux Level.">
 
@@ -164,44 +191,56 @@ function extensionLuxAllowance ($d, $pd)
     
 	if (isset($d["file"]) and file_exists($d["file"]))
 		{
+    
+  //function formInput($name, $title, $type, $value=false, $cols=6, $tlw = 75, $jsfn="",
+  //$trTxt=false, $trw=70, $readonly=false, $placeholder=false, $multiple=false, $extraClasses="")
+    $days = array("Default", "Monday", "Tuesday", "Wednesday",
+      "Thursday", "Friday", "Saturday", "Sunday");      
+    $day = formInput("day", "", "select", $days, 12, 75, "", 
+      "<i class=\"fa-solid fa-calendar-day\"></i>", "45", true);
+    
+   $openHrs = formInput("openhours", "", "text", false, 12, "",
+      "customValidate", "Hrs", 70, false, "Open Hrs ...", false, "openhrs");
       
+    $extraHrs = formInput("extrahours", "", "text", false, 12, "",
+      "customValidate", "Hrs", 70, false, "Extra Hrs ...", false, "extrahrs");
 		ob_start();
 		echo <<<END
-				
-    <div class="row form_field_outer">  <!-- Start Row -->	
-      <div class="row form_field_outer_row">
-    <div class="form-group col-md-1"></div>
-    <div class="form-group col-md-3">
-      <select name="days[]" id="day_1" class="form-select">
-	<option> .. select day</option><option>Default</option>
-<option>Monday</option>
-<option>Tuesday</option>
-<option>Wednesday</option>
-<option>Thursday</option>
-<option>Friday</option>
-<option>Saturday</option>
-<option>Sunnday</option>
-      </select>
-    </div>    
-    <div class="form-group col-md-3">
-      <input type="text" class="form-control w_90" name="openhours[]" id="open_1" placeholder="Open Hrs ...">
-    </div>	    
-    <div class="form-group col-md-3">
-      <input type="text" class="form-control w_90" name="extrahours[]" id="extra_1" placeholder="Extra Hrs ...">
-    </div>
-    <div class="form-group col-md-2 add_del_btn_outer">
-      <button class="btn_round add_node_btn_frm_field" title="Copy or clone this row">
-	<i class="fas fa-copy"></i>
-      </button>
-      
-      <button class="btn_round remove_node_btn_frm_field" disabled="">
-        <i class="fas fa-trash-alt"></i>
-      </button>
-    </div>
+<div  id="customGroup" style="display:none;padding-bottom:10px;">		
+  <div class="row form_field_outer" id="customDetails" style="">  	
+    <div class="row form_field_outer_row"> 
+      <div class="form-group col-md-1"></div>
+      <div class="form-group col-md-3">
+        $day
+      </div>    
+      <div class="form-group col-md-3">
+        $openHrs
+      </div>	    
+      <div class="form-group col-md-3">
+        $extraHrs
+      </div>
+      <div class="form-group col-md-2 add_del_btn_outer text-end">
+        <button type="button" class="btn_round add_node_btn_frm_field" title="Copy or clone this row">
+          <i class="fas fa-copy"></i>
+        </button>
+        <button type="button" class="btn_round remove_node_btn_frm_field" disabled="">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+    </div> 
+  </div>   	
+  <div class="row form_field_outer d-none">
+    
+    <div class="row form_field_outer_row"> 
+      <div class="form-group col-md-12 text-end">
+        <button type="button" id="updateCustom" class="btn btn-outline-secondary btn-sm" title="Update Custom Settings">
+          Update Custom Settings
+        </button>        
+      </div>
+    </div> 
+    
   </div>
-    </div>
-
-      
+</div>      
 END;
     $custom = ob_get_contents();
 		ob_end_clean(); // Don't send output to client
@@ -220,14 +259,13 @@ END;
 	$inputs[end]			
       </div>
 
-$custom
-
       $titles[openinghours]
 			
       <div class="row" style="margin-bottom: 1rem;">
         $inputs[prof]
       </div>		
-
+      
+      $custom
       $alerts[prof]
       $titles[luxlevels]
 					
@@ -242,6 +280,7 @@ $custom
         $inputs[luxlevel]
         $inputs[maintenance]
         $inputs[overnight]
+        $inputs[period]
       </div>
 
       $alerts[result]

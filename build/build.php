@@ -92,7 +92,7 @@ $default_scripts = array(
 		,"tether" => "https://cdn.jsdelivr.net/npm/tether@".$versions["tether"]."/dist/js/tether.min.js\" crossorigin=\"anonymous"
 		,"bootstrap" => "https://cdn.jsdelivr.net/npm/bootstrap@".$versions["bootstrap"]."/dist/js/bootstrap.min.js\" crossorigin=\"anonymous"
 		,"json-viewer" => "https://cdn.jsdelivr.net/npm/jquery.json-viewer@".$versions["json-viewer"]."/json-viewer/jquery.json-viewer.js\" crossorigin=\"anonymous"
-		,"highlight" => "https://cdn.jsdelivr.net/npm/highlight.js@".$versions["highlight.js"]."/lib/index.min.js"
+		//,"highlight" => "https://cdn.jsdelivr.net/npm/highlight.js@".$versions["highlight.js"]."/lib/index.min.js"
     
     ),
     

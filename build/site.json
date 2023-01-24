@@ -1,7 +1,7 @@
 	{
-		"metaDescription": "Simple system for creating a set of web-pages to support your GitHub repository from a few simple json files.",
+		"metaDescription": "The Lux Allowance - Calculator is an interactive system to assess the cumulative light exposure experienced by works of art, for exhibitions and general display.",
 		"metaKeywords": "The National Gallery, London, National Gallery London, Scientific, Research, Heritage, Culture, Light, Exposure, Exhibition, Preventive COnservation ",
-		"metaAuthor": "Joseph Padfield| joseph.padfield@ng-london.org.uk |National Gallery | London UK | website@ng-london.org.uk |www.nationalgallery.org.uk",
+		"metaAuthor": "Joseph Padfield| joseph.padfield@nationalgallery.org.uk |National Gallery | London UK | information@nationalgallery.org.uk |www.nationalgallery.org.uk",
 		"metaTitle": "Lux Allowance - Calculator",
 		"metaFavIcon": "graphics/favicon.ico",
 		"logo_link": "./",
