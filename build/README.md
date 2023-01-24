@@ -1,4 +1,6 @@
-# simple-site
+# Lux-Allowance-Calculator - Build Folder
+
+This folder contains all of the code used to automatically build a GitHub pages website presenting a live working version of the [Lux Allowance Calculator](https://jpadfield.github.io/Lux-Allowance-Calculator/). 
 
 The build process for a very simple set processes for creating a standard set of webpages based on a small set of simple json files. All of the other required files, javascript, css, images, etc should be placed in the appropriate folders under the **docs** folder.
 
