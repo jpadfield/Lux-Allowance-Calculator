@@ -17,6 +17,57 @@
 	<link href="css/main.css" rel="stylesheet" type="text/css">
     <style>
     
+.card-img {
+  width: auto;
+  max-width: 100%;
+  max-height:200px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.card-img-top {
+  width: auto;
+  max-width: 100%;    
+  max-height:128px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+}
+
+.nodec:link, .nodec:visited, .nodec:hover, .nodec:active {
+  text-decoration: none;
+  color: inherit;
+  }
+
+.card-hov:hover {
+  opacity: 0.7;
+}
+
+.offsetanchor {
+  position: relative;
+  top: -75px;
+}
+
+.pcontainer {
+   position: relative;
+   width: 100%;
+   padding-top: 56.25%; /* 16:9 Aspect Ratio */
+	}
+	
+.preview {
+   position: absolute;
+   top: 0;
+   left: 0;
+   bottom: 0;
+   right: 0;
+   width: 100%;
+   height: 100%;
+	}
+
+
     </style>
     
   </head>
@@ -77,15 +128,13 @@
 								<div class="h-100 d-flex flex-column">
 							<h3>What it does</h3>
 
-            <p>This <a href='index.php'>Lux calculator</a> is used to calculate the light allowance (in lux hours) for an object or groups of objects for a selected period of display. This is based on three parameters:
+            <p>This <a href='./'>Lux calculator</a> is used to calculate the light allowance (in lux hours) for an object or groups of objects for a selected period of display. This is based on three parameters:</p>
 
             <ul>
               <li>The type of objects being lit</li>
-              <li>The number of hours needed to light the object</li>
+              <li>The number of hours of light needed </li>
               <li>The desired light (lux) levels</li>
-            </ul></p>
-
-            <p>The period can be, for example, over one whole year or for the duration of a temporary exhibition. The standard example calculations provided are is based on figures quoted by Thomson in The Museum Environment<sup><a id="ref1" href="#section1">[1]</a></sup> and revisited by Saunders in Museum Lighting - A Guide for Conservators and Curators<sup><a id="ref2" href="#section2">[2]</a></sup>.</p>
+            </ul><p>The period of time can be, for example, a whole year or just for the duration of a temporary exhibition. The standard example calculations provided are is based on figures quoted by Thomson in The Museum Environment<sup><a id="ref1" href="#section1">[1]</a></sup> and revisited by Saunders in Museum Lighting - A Guide for Conservators and Curators<sup><a id="ref2" href="#section2">[2]</a></sup>.</p>
 
             <p>The total from the calculator represent the maximum allowed light exposure for the period rather than just one a target lux value. This total is the cumulative light dose or ‘allowance’, that must accommodates normal opening hours, maintenance and security arrangements and out-of-hours activities. To keep within the permitted light allowance, it may be necessary to limit the number and duration of out-of-hours activities and/or reduce the light levels for the duration of such activities.</p>
 
@@ -101,11 +150,31 @@
 
             <h3>Why is it useful</h3>
 
-            <p>There is increasing pressure for collections and institutions to extend their opening hours and develop events and activities programmes, with the result that collections are being exposed to more light.  This directly results in increased cumulative exposure of a collection to the damaging effects of light and potentially accelerates deterioration processes. This increase in light exposure together along with any increases in other ‘agents of deterioration’<sup><a id="ref4" href="#section4">[4]</a></sup>* such as handling and movement of the collection, activity-induced vibration and increased levels of dirt and pest ingress, can lead to an increased overall risk and potential for damage, not just to collections but also to the building fabric and engineering systems providing environmental controls.</p>
+            <p>There is increasing pressure for collections and institutions to extend their opening hours and develop events and activities programmes, with the result that collections are being exposed to more light.  This directly results in increased cumulative exposure of a collection to the damaging effects of light and potentially accelerates deterioration processes. This increase in light exposure together with any increases in other ‘agents of deterioration’<sup><a id="ref4" href="#section4">[4]</a></sup>* such as handling and movement of the collection, activity-induced vibration and increased levels of dirt and pest ingress, can lead to an increased overall risk and potential for damage, not just to collections but also to the building fabric and engineering systems providing environmental controls.</p>
 
             <p>The original calculations (proposed by Thomson) were based on an average 200 lux for 8 hrs per day plus a low level of adventitious and security lighting for the remaining hours of each day (Thomson 1986, 30). However, many institutions are now open far longer, thus complicating these calculations, and a simple illuminance limit is no longer suitable.</p> 
 
-            <p>Recent work in preventive conservation research has resulted in a re-examination of the recommendations for cumulative light exposure levels and limits. The overall recommended levels may have been reduced, relative to previous levels, meaning there are potentially less ‘light hours’ available for out-of-hours activities. This has the potential to impact on how the institutions operates, for example, with the number of out-of-hours activities possible with the light allowance available.</p>  <div class="foonote"><hr/><ul><li id="section1"><a href="#ref1">[1]</a> Thomson, Garry, <i>The Museum Environment</i>, 2nd ed., London ; Butterworths, 1986, pp. ??-??, <a href='https://lccn.loc.gov/85025446'>https://lccn.loc.gov/85025446</a></li><li id="section2"><a href="#ref2">[2]</a> Saunders, David, <i>Museum Lighting - A Guide for Conservators and Curators</i> , Los Angeles : The Getty Conservation Institute, 2020, pp. ??-??, <a href='https://lccn.loc.gov/2019021273'>https://lccn.loc.gov/2019021273</a></li><li id="section3"><a href="#ref3">[3]</a> All ultraviolet (UV) radiation with a wavelength of less than 380nm must be excluded from the light, whether from natural or artificial sources.</li><li id="section4"><a href="#ref4">[4]</a>  <a href='https://www.canada.ca/en/conservation-institute/services/agents-deterioration.html'>https://www.canada.ca/en/conservation-institute/services/agents-deterioration.html</a></li></ul></div>
+            <p>Recent work in preventive conservation research has resulted in a re-examination of the recommendations for cumulative light exposure levels and limits. The overall recommended levels may have been reduced, relative to previous levels, meaning there are potentially less ‘light hours’ available for out-of-hours activities. This has the potential to impact on how the institutions operates, for example, with the number of out-of-hours activities possible with the light allowance available.</p>
+
+            <h3>Acknowledgements</h3>
+
+            <p>This tool was originally developed within the National Gallery, but its continue development and public presentation has also been supported by the EU H2020 <a href='https://www.iperionhs.eu/'>IPERION HS</a> project<sup><a id="ref5" href="#section5">[5]</a></sup>.<h3>Project Supporters</h3><p></p><div class="row">    
+  <div class="col-lg-4  col-md-6 col-sm-12  col-xs-12 mb-4 card-hov">
+    <div class="card" title="The National Gallery">
+      <a href="https://www.nationalgallery.org.uk" class="stretched-link nodec">
+      <img class="card-img-top" src="graphics/NG Logo Black on Transparent 600.png" alt="The National Gallery">
+      </a>
+    </div>
+  </div>
+    
+  <div class="col-lg-4  col-md-6 col-sm-12  col-xs-12 mb-4 card-hov">
+    <div class="card" title="The IPERION-HS Project">
+      <a href="https://www.iperionhs.eu/" class="stretched-link nodec">
+      <img class="card-img-top" src="graphics/IPERION-HS Logo.png" alt="The IPERION-HS Project">
+      </a>
+    </div>
+  </div>
+</div><br/><div class="foonote"><hr/><ul><li id="section1"><a href="#ref1">[1]</a> Thomson, Garry, <i>The Museum Environment</i>, 2nd ed., London ; Butterworths, 1986, pp. ??-??, <a href='https://lccn.loc.gov/85025446'>https://lccn.loc.gov/85025446</a></li><li id="section2"><a href="#ref2">[2]</a> Saunders, David, <i>Museum Lighting - A Guide for Conservators and Curators</i> , Los Angeles : The Getty Conservation Institute, 2020, pp. ??-??, <a href='https://lccn.loc.gov/2019021273'>https://lccn.loc.gov/2019021273</a></li><li id="section3"><a href="#ref3">[3]</a> All ultraviolet (UV) radiation with a wavelength of less than 380nm must be excluded from the light, whether from natural or artificial sources.</li><li id="section4"><a href="#ref4">[4]</a>  <a href='https://www.canada.ca/en/conservation-institute/services/agents-deterioration.html'>https://www.canada.ca/en/conservation-institute/services/agents-deterioration.html</a></li><li id="section5"><a href="#ref5">[5]</a> IPERION-HS 'Integrating Platforms for the European Research Infrastructure ON Heritage Science', has received funding from the European Union's Horizon 2020 project call H2020-INFRAIA-2019-1, under GA No. 871034.</li></ul></div>
 						</div></div><!--/span--></div></div><!--/row-->    
 <!-- End SimpleBDGrid -->
 
