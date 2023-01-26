@@ -1,0 +1,27 @@
+{
+	"tableofcontents": false,
+	"groups": {
+		"Project Supporters": {
+			"comment": "",
+			"card": "image",
+			"config": {}
+		}
+	},
+	"list": [{
+			"groups": ["Project Supporters"],
+			"ptitle": "The National Gallery",
+			"stitle": "Principal Developer",
+			"comment": "",
+			"image": "graphics/NG Logo Black on Transparent 600.png",
+			"link": "https://www.nationalgallery.org.uk"
+		},
+		{
+			"groups": ["Project Supporters"],
+			"ptitle": "The IPERION-HS Project",
+			"stitle": "Project Funder",
+			"comment": "",
+			"image": "graphics/IPERION-HS Logo.png",
+			"link": "https://www.iperionhs.eu/"
+		}
+	]
+}

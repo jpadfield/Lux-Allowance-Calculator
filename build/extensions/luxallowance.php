@@ -207,6 +207,20 @@ function extensionLuxAllowance ($d, $pd)
 		ob_start();
 		echo <<<END
 <div  id="customGroup" style="display:none;padding-bottom:10px;">		
+  <div class="row pb-1" style="">  	
+    <div class="row"> 
+      <div class="col-md-4"></div>
+      <div class="col-md-3 text-center">
+        <u>Opening Hours</u>
+      </div>	    
+      <div class="col-md-3 text-center">
+        <u>Extra Cleaning/Security Hours</u>
+      </div>
+      <div class="col-md-2">
+      </div>
+    </div> 
+  </div>
+  
   <div class="row form_field_outer" id="customDetails" style="">  	
     <div class="row form_field_outer_row"> 
       <div class="form-group col-md-1"></div>
