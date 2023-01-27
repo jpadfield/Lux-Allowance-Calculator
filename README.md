@@ -16,7 +16,7 @@ This software is currently being developed with the support of the following pro
 ### [The National Gallery](https://www.nationalgallery.org.uk)
 [<img height="64px" src="docs/graphics/ng-logo-black-100x40.png" alt="The National Gallery">](https://www.nationalgallery.org.uk/research)
 
-This software was initially developed, prepared and tested as part of:
+This software was initially developed, prepared and tested by:
 
 ### [The National Gallery](https://www.nationalgallery.org.uk)
 [<img height="64px" src="docs/graphics/ng-logo-black-100x40.png" alt="The National Gallery">](https://www.nationalgallery.org.uk/research)
