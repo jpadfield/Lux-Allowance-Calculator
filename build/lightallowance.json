@@ -35,7 +35,7 @@
 			"maxLux": 50,
 			"overnightLux": 5,
 			"maintenanceLux": 35,
-			"period": 10
+			"period": 5
 		},
 		"Special Light Sensitivity": {
 			"annual": 50000,
@@ -44,7 +44,7 @@
 			"maxLux": 250,
 			"overnightLux": 5,
 			"maintenanceLux": 35,
-			"period": 50
+			"period": 15
 		}
 	},
 	"light-profiles": {		

@@ -131,10 +131,11 @@ function buildDropdowns () {
 			});
 		}
 
-function showDebug(str)
+function showDebug(str, label=false)
 	{if (vars["debug"])
-		{console.log("DEBUG");
-		 console.log(str);}}
+		{if (label) {console.log("DEBUG: " + label);}
+     else {console.log("DEBUG");}
+		 if (str) {console.log(str);}}}
 	
 function validateValues (inputID, str)
 	{
@@ -393,26 +394,27 @@ function dayLuxTotal (cday)
 	
 function calculateAllowance()
 		{
-		showDebug("calculateAllowance")
-		showDebug(vars)
-		showDebug(use)
-		showDebug(prof)
+		showDebug(false, "Run Function calculateAllowance")
+		showDebug(vars, "vars")
+		showDebug(use, "use")
+		showDebug(prof, "profiles")
+    showDebug(false, "Start Calculations ####################################")
 		
 		// Formulate the Difference between two dates 
 		diff = Math.ceil((vars["end"] - vars["start"])/1000); // return seconds
-		showDebug(diff)
 		days = Math.floor(diff / (60*60*24)) + 1;
+    showDebug(false, "Exhibitions Days: " + days)
     
     if (vars["annual"] > 0)
 				{var useAnn = parseInt(vars["annual"]);}
 			else
 				{var useAnn = parseInt(use["annual"]);}
+        
 		var allowance = Math.floor(useAnn * (days/365));
-
-		var t0 = performance.now()
-		
+    showDebug(false, "Pro Rata Allowance (Lux.Hrs): " + allowance)
+    		
 		fullWeeks = Math.floor(days / 7);
-		remainder = days - (fullWeeks * 7);
+		remainderDays = days - (fullWeeks * 7);
 
 		var cluxvals = {}
 		var weekLuxTotal = 0;
@@ -421,22 +423,23 @@ function calculateAllowance()
 			weekLuxTotal = weekLuxTotal + dayLuxTotal (item);
 			});
 
-		showDebug(dayLuxTotals)
-		showDebug("weekLuxTotal: " + weekLuxTotal)
-		showDebug("days: " + days)
-		showDebug("fullWeeks: " + fullWeeks)
-		showDebug("remainder: " + remainder)
+		showDebug(dayLuxTotals, "dayLuxTotals")
+		showDebug(false, "weekLuxTotal: " + weekLuxTotal)
+		showDebug(false, "Total Days: " + days)
+		showDebug(false, "fullWeeks: " + fullWeeks)
+		showDebug(false, "remainding days: " + remainderDays)
 		var dn = 0
 		var luxTotal = weekLuxTotal * fullWeeks
-		showDebug("luxTotal (from full weeks) = " + weekLuxTotal + " * " + fullWeeks + " = " + luxTotal)
+		showDebug(false, "luxTotal (from full weeks) = " + weekLuxTotal + " * " + fullWeeks + " = " + luxTotal)
 		
-		while (dn < remainder)
+    // remaining days will begin on the same day as the start day
+		while (dn < remainderDays)
 			{const tcd = new Date(vars["start"])
 			 const tcurrentDate = vars["start"].getDate()
 			 tcd.setDate(vars["start"].getDate() + dn)
 			 dayOfWeek = dayNames[tcd.getDay()]
 			 luxTotal = luxTotal + dayLuxTotals[dayOfWeek]
-			 showDebug("luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
+			 showDebug(false, "Update luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
 			 dn++}		
 
     dn = 0
@@ -444,67 +447,82 @@ function calculateAllowance()
 		var resultsDetails = document.getElementById('result');
 		$(resultsDetails).removeClass("alert-success alert-danger");
 		
-		remainder = Math.floor (allowance - luxTotal)
-
+    let remainder = Math.floor (allowance - luxTotal)
+    
+    showDebug(false, "Remaining Lux Allowance = " + remainder)
 		var resultStr = "Exhibition (" + days + " days): Allowance: " + allowance + " Lux Hrs<br/>"
-				
-		if (remainder >= 0)
+    
+    let plannedDarkString = false;
+    let additionalAllowance = false;
+    let adjustedAllowance = false;
+    let allowancePerHour = (useAnn * (1/365))/24;
+    let resultClass = false;
+    let useRemainder = remainder;
+    let tab = "&nbsp;&nbsp;&nbsp;&nbsp;";
+    let plannedDarkPeriod = 0;
+    
+    // Some dark storage time is planned
+    if (vars["period"] != 100) 
+      {      
+      let totalEventPeriod = days * (100/parseFloat(vars["period"])) ; //Days
+      plannedDarkPeriod = Math.ceil((totalEventPeriod - days) * 24); //Hours
+      let plannedDarkDays = Math.floor(plannedDarkPeriod/24);
+      let plannedDarkHours = Math.ceil(plannedDarkPeriod % 24);
+      
+      additionalAllowance = Math.floor(allowancePerHour * plannedDarkPeriod);
+      adjustedAllowance = allowance + additionalAllowance;      
+      useRemainder = Math.floor (adjustedAllowance - luxTotal)
+      
+      plannedDarkString = tab + tab + "Planned additional dark storage compensation: " + 
+        plannedDarkDays +" Days "+ plannedDarkHours+" Hours" + "<br/>" + 
+        tab + tab + "<b>Adjusted allowance: " + adjustedAllowance + "Lux Hrs</b><br/>"
+        
+      showDebug(false, plannedDarkString)
+      }
+		
+    if (useRemainder >= 0)
 			{
 			if (vars["luxlevel"] > 0)
 				{var useLux = vars["luxlevel"];}
 			else
 				{var useLux = parseInt(use["luxlevel"]);}
+        
+      if (plannedDarkString) {plannedDarkString = "<b>"+plannedDarkString+"</b>";}
 		
-			resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ remainder +" Lux Hrs "+
+			resultStr = resultStr + plannedDarkString + "Allocated: " + luxTotal + " Lux Hrs - this leaves "+ useRemainder +" Lux Hrs "+
 				" to use for additional events." +
-				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+useLux+" lux this allows " +(remainder/useLux).toFixed(2)+ " hrs of exposure"+
-				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.6).toFixed(0)+" lux (60%) this allows " +(remainder/(useLux*0.6)).toFixed(2)+ " hrs of exposure"+
-				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.4).toFixed(0)+" lux (40%) this allows " +(remainder/(useLux*0.4)).toFixed(2)+ " hrs of exposure";
-			 $(resultsDetails).addClass("alert-success");
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+useLux+" lux this allows " +(useRemainder/useLux).toFixed(2)+ " hrs of exposure"+
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.6).toFixed(0)+" lux (60%) this allows " +(useRemainder/(useLux*0.6)).toFixed(2)+ " hrs of exposure"+
+				"<br/>&nbsp;&nbsp;&nbsp;&nbsp;@ "+(useLux*0.4).toFixed(0)+" lux (40%) this allows " +(useRemainder/(useLux*0.4)).toFixed(2)+ " hrs of exposure";
+			 resultClass = "alert-success";
        }
 		else
-			{      
-      var allowancePerHour =   (useAnn * (1/365))/24;      
-      var darkPeriod = (remainder * -1) / allowancePerHour;
+			{     
+      var darkPeriod = (useRemainder * -1) / allowancePerHour;
+      
+      let tstr = " ";
+      if (plannedDarkPeriod) 
+        {darkPeriod = darkPeriod + plannedDarkPeriod;
+         tstr = " total ";}
+         
       var ddays = Math.floor(darkPeriod/24);
       var dhours = Math.ceil(darkPeriod % 24);
       
-      resultStr = resultStr + "Allocated: " + luxTotal + " Lux Hrs<br/>CAUTION - OVEREXPOSURE BY: " + (remainder * -1) + " Lux Hrs<br/>" +
-        "(Required dark storage compensation: " +ddays+" Days "+dhours+" Hours ).";
-			 $(resultsDetails).addClass("alert-danger");
+      resultStr = resultStr + plannedDarkString + "Allocated: " + luxTotal + 
+        " Lux Hrs<br/><b>CAUTION - OVEREXPOSURE BY: " + (useRemainder * -1) + " Lux Hrs<br/>" +
+        tab + tab + "Required"+tstr+"dark storage compensation: " +ddays+" Days "+dhours+" Hours</b>";
+      resultClass = "alert-danger";
       }
 
-    //console.log(vars);
-    //console.log(profiles["Custom"]);
+    if (resultClass)
+      {$(resultsDetails).addClass(resultClass);}
+      
     const pakoVars = vars;
     pakoVars["custom"] = profiles["Custom"];
     delete pakoVars["data"];
     const bmCompressed = pako.deflate(JSON.stringify(pakoVars), { level: 9 });
     const bmData = Base64.fromUint8Array(bmCompressed, true);
     const link = "./?data=pako:"+bmData;
-    		
-    //link = "?"
-		//for (var key in vars)
-//			{			
-			//if (key == "start" || key == "end")
-	//			{link = link + key+"="+getDateStr(vars[key])+"&"}
-//			else
-	//			{link = link + key+"="+vars[key]+"&"}
-		//	}
-
-//var linkData = {
-//  "exProfiles" : extraProfiles,
-//  "exTypes" : extraTypes,
-//  "vars" : vars };
-
-//console.log(vars);
-
-  
-//if (vars["prof"] == "Custom")
-//  {
-//console.log(linkData)
-//console.log(bmURL)
-//}
   
 		document.getElementById('linkButton').href = link
 
@@ -741,7 +759,7 @@ $(document).ready(function () {
     //console.log("success");
   });
   
-  // The period value is mot yet used in calculations
-  $("#period").closest(".input-group").parent().addClass("d-none");
-  $("#period").attr('readonly','readonly');
+  // The period value is not yet used in calculations
+  //$("#period").closest(".input-group").parent().addClass("d-none");
+  //$("#period").attr('readonly','readonly');
 });
