@@ -31,74 +31,8 @@ var vars = {'start':now, 'end':then, 'type':false,
 	'overnightLux':false, 'maxLux':false, 'period':false, 
 	'url': false, 'debug':false, "annual":false, "data":false,
   "custom":false}
-
-// required if people still using ie11	
-if (ie11) {
-  checkurlParams = function(name){
-    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results == null){
-       return null;
-    }
-    else {
-       return decodeURI(results[1]) || 0;
-    }}
-
-  for (var key in vars)
-	{if (checkurlParams(key))
-		{if (key == "start" || key == "end")
-			{vars[key] = new Date(checkurlParams(key) + "T00:00")}
-		 else
-			{vars[key] = checkurlParams(key)}}}
-  }
-else {
-	urlParams = new URLSearchParams(queryString);
-	for (var key in vars)
-	{if (urlParams.has(key))
-		{
-    //console.log(key + ": " +urlParams.get(key))
-    if (key == "start" || key == "end")
-			{vars[key] = new Date(urlParams.get(key) + "T00:00")}
-		 else
-			{vars[key] = urlParams.get(key)}}}}
-    
-if(vars["data"])
-  {
-  const d1 = Base64.toUint8Array(vars["data"].slice(5));      
-  const d2 = pako.inflate(d1, { to: 'string' })
-  const dvars = JSON.parse(d2);
-  //console.log(dvars)
   
-  for (var key in dvars)
-    {
-    if (key == "start" || key == "end")
-			{vars[key] = new Date(dvars[key])}
-		 else
-			{vars[key] = dvars[key];}
-    }
-  }
-     
-//console.log(vars);
-
-if (vars["url"]) {
-  //console.log("Adding external settings: "+vars["url"]);
-  fetch(vars["url"])
-    .then((response) => {
-      if (!response.ok) {
-	throw new Error('Network response was not OK');
-	}
-      return response.json()
-      })
-    .then((json) => 
-      {
-      extraProfiles = json["light-profiles"];
-      extraTypes = json["object-types"]; 
-      types = $.extend(types, json["object-types"]); 
-      profiles = $.extend(profiles, json["light-profiles"]); 
-      })
-  .catch((error) => {
-    console.error('There has been a problem with your fetch operation:', error);
-  });  
-  }
+var tmpVars = vars;
 
 var dayLuxTotals = {	
 	sunday:0,
@@ -155,7 +89,7 @@ function luxUpdate (inputID)
 	 calculateAllowance()}
    
 
-function otherUpdate (inputID, min=0, max=100)
+function otherUpdate (inputID, min=1, max=100)
 	{var cInput = document.getElementById(inputID);
 	 vars[inputID] = parseInt(cInput.value);
 	 otherValidate (inputID, min, max);	
@@ -197,8 +131,9 @@ function otherValidate (inputID, min, max)
 	inputLU.value = vars[inputID];
 	}
 	
-function typeUpdate()
-	{
+function typeUpdate(which=false)
+	{  
+  //console.log("typeUpdate ("+which+"): " + vars["type"] + " -- " + document.getElementById("type").value)
 	vars["type"] = document.getElementById("type").value
 	use = types[vars["type"]]
 	vars['maxLux'] = parseInt(use['maxLux']);
@@ -213,6 +148,7 @@ function typeUpdate()
 
 function profUpdate()
 	{
+  //console.log("profUpdate: " + vars["prof"] + " -- " + document.getElementById("prof").value)
 	vars["prof"] = document.getElementById("prof").value
 	prof = profiles[vars["prof"]];
 	populateInputs()
@@ -366,7 +302,7 @@ function populateInputs()
 	luxValidate ('luxlevel');
 	luxValidate ('maintenanceLux');
 	luxValidate ('overnightLux');
-  otherValidate ('period', 0, 100);
+  otherValidate ('period', 1, 100);
 	
 	if(ie11) /*required to ensure values are displayed*/
 		{showDebug("Updating padding on date inputs");
@@ -452,7 +388,7 @@ function calculateAllowance()
     showDebug(false, "Remaining Lux Allowance = " + remainder)
 		var resultStr = "Exhibition (" + days + " days): Allowance: " + allowance + " Lux Hrs<br/>"
     
-    let plannedDarkString = false;
+    let plannedDarkString = "";
     let additionalAllowance = false;
     let adjustedAllowance = false;
     let allowancePerHour = (useAnn * (1/365))/24;
@@ -684,10 +620,51 @@ function customValidate ()
     } 
   }
   
-// JS plus relates html based on example provided at: https://bootstrapfriendly.com/blog/dynamically-add-or-remove-form-input-fields-using-jquery/ (26/09/22
-///======Clone method
-$(document).ready(function () { 
+function checkExternalURL (exURL, dvars=false)//tV=false, pV=false)
+  {
+  //console.log("checkExternalURL")// ("+exURL+", "+tV+", "+pV)
+  fetch(exURL)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error('Network response was not OK');
+        }
+      return response.json()
+      })
+    .then((json) => 
+      {
+      extraProfiles = json["light-profiles"];
+      extraTypes = json["object-types"]; 
+      
+      types = $.extend(types, json["object-types"]); 
+
+      for (const [key, value] of Object.entries(extraTypes)) {
+        $('#type').append($('<option></option>').val(key).html(key));}
+                        
+      profiles = $.extend(profiles, json["light-profiles"]);  
+      
+      for (const [key, value] of Object.entries(extraProfiles)) {
+        $('#prof').append($('<option></option>').val(key).html(key));}
+        
+      if (dvars) {
+        if (dvars["type"]) {$('#type').val(dvars["type"]).change();} 
+        if (dvars["prof"]) {$('#prof').val(dvars["prof"]).change();}
+      
+        for (var key in dvars)
+          {if (key == "start" || key == "end")
+            {vars[key] = new Date(dvars[key])}
+           else
+            {vars[key] = dvars[key];}}
+        }
+      
+      rebuildCustom ()    
+      })
+    .catch((error) => {
+      console.error('There has been a problem with your fetch operation:', error);
+      });     
+  }
   
+function rebuildCustom ()
+  {
   if (vars["custom"])
     {profiles["Custom"] = vars["custom"]}
      
@@ -701,16 +678,73 @@ $(document).ready(function () {
         {$("#customDetails").find(".form_field_outer_row").first().find(".openhrs").val(value["openingHours"]).change();
          $("#customDetails").find(".form_field_outer_row").first().find(".extrahrs").val(value["maintenance"]).change();}
       }
+    }    
+  }
+  
+// JS plus relates html based on example provided at: https://bootstrapfriendly.com/blog/dynamically-add-or-remove-form-input-fields-using-jquery/ (26/09/22
+///======Clone method
+$(document).ready(function () { 
+  
+  // required if people still using ie11	
+if (ie11) {
+  checkurlParams = function(name){
+    var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    if (results == null){
+       return null;
     }
+    else {
+       return decodeURI(results[1]) || 0;
+    }}
 
+  for (var key in vars)
+	{if (checkurlParams(key))
+		{if (key == "start" || key == "end")
+			{vars[key] = new Date(checkurlParams(key) + "T00:00")}
+		 else
+			{vars[key] = checkurlParams(key)}}}
+  }
+else {
+	urlParams = new URLSearchParams(queryString);
+  
+  if (urlParams.has("url")) {
+    checkExternalURL (urlParams.get("url"))}
+    
+	for (var key in vars)
+	{if (urlParams.has(key))
+		{
+    //console.log(key + ": " +urlParams.get(key))
+    if (key == "start" || key == "end")
+			{vars[key] = new Date(urlParams.get(key) + "T00:00")}
+		 else
+			{vars[key] = urlParams.get(key)}}}}
+    
+if(vars["data"])
+  {
+  const d1 = Base64.toUint8Array(vars["data"].slice(5));      
+  const d2 = pako.inflate(d1, { to: 'string' })
+  const dvars = JSON.parse(d2);  
+  
+  if (dvars["url"]) 
+    {
+    checkExternalURL (dvars["url"], dvars)
+    }
+  else
+    {  
+    for (var key in dvars)
+      {if (key == "start" || key == "end")
+        {vars[key] = new Date(dvars[key])}
+       else
+        {vars[key] = dvars[key];}}
+    rebuildCustom ()
+    } 
+  }
 
+  
 
   $("body").on("click", ".add_node_btn_frm_field", function (e) {
     e.preventDefault();
     addCustomRow ($(e.target).closest(".form_field_outer_row"), false, false, false);
   });
-
-
 
   $("body").on("click", "#updateCustom", function (e) {
     e.preventDefault();    
@@ -743,9 +777,6 @@ $(document).ready(function () {
       }
   }); 
 
-
-
-
   //===== delete the form field row
   $("body").on("click", ".remove_node_btn_frm_field", function () {
         
@@ -756,7 +787,6 @@ $(document).ready(function () {
     $(this).closest(".form_field_outer_row").remove();
     resetDaySelectors ("delete");
     
-    //console.log("success");
   });
   
   // The period value is not yet used in calculations

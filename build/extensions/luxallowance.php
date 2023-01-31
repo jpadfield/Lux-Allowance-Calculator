@@ -207,7 +207,7 @@ function extensionLuxAllowance ($d, $pd)
 		ob_start();
 		echo <<<END
 <div  id="customGroup" style="display:none;padding-bottom:10px;">		
-  <div class="row pb-1" style="">  	
+  <div class="row pb-1 d-md-block d-none" style="">  	
     <div class="row"> 
       <div class="col-md-4"></div>
       <div class="col-md-3 text-center">
@@ -223,17 +223,17 @@ function extensionLuxAllowance ($d, $pd)
   
   <div class="row form_field_outer" id="customDetails" style="">  	
     <div class="row form_field_outer_row"> 
-      <div class="form-group col-md-1"></div>
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-1 col-0 order-1"></div>
+      <div class="form-group col-md-3 col-6 order-2">
         $day
       </div>    
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-3 col-6 order-md-3 order-4 border-bottom mb-2">
         $openHrs
       </div>	    
-      <div class="form-group col-md-3">
+      <div class="form-group col-md-3 col-6 order-md-4 order-5 border-bottom mb-2">
         $extraHrs
       </div>
-      <div class="form-group col-md-2 add_del_btn_outer text-end">
+      <div class="form-group col-md-2 col-6 order-md-5 order-3 add_del_btn_outer text-end">
         <button type="button" class="btn_round add_node_btn_frm_field" title="Copy or clone this row">
           <i class="fas fa-copy"></i>
         </button>
@@ -241,6 +241,8 @@ function extensionLuxAllowance ($d, $pd)
           <i class="fas fa-trash-alt"></i>
         </button>
       </div>
+      
+      
     </div> 
   </div>   	
   <div class="row form_field_outer d-none">
@@ -275,7 +277,7 @@ END;
 
       $titles[openinghours]
 			
-      <div class="row" style="margin-bottom: 1rem;">
+      <div class="row" style="margin-bottom: 0.5rem;">
         $inputs[prof]
       </div>		
       
@@ -283,7 +285,7 @@ END;
       $alerts[prof]
       $titles[luxlevels]
 					
-      <div class="row" style="margin-bottom: 1rem;">
+      <div class="row" style="margin-bottom: 0.5rem;">
         $inputs[type]			
       </div>		
 

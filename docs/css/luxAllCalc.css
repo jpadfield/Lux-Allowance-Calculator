@@ -79,3 +79,6 @@ input.alert {
     padding: 6px 12px 6px 12px !important;
 	margin: 0px !important;
 }
+
+body {
+  min-width: 480px;}
