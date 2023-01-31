@@ -738,6 +738,8 @@ if(vars["data"])
     rebuildCustom ()
     } 
   }
+else
+  {rebuildCustom () }
 
   
 
