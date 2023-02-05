@@ -8,7 +8,7 @@
 	},
 "instructions": {
 	"title": "Lux Allowance - <b>Instructions</b>",
-	"content": "<div class=\"alert alert-info\" role=\"alert\">This tool is currently being finalised and is undergoing open testing - part of this work is to determine an appropriate level of instructions to ensure that the tool is appropriately accessible.<br/><br/>An introduction to the tool, covering it general purpose is provided on the [About page|./about.html]. If you have any questions or suggestions during this testing phase please do post then through the GitHub Issues system [here|https://github.com/jpadfield/Lux-Allowance-Calculator/issues].</div>",
+	"content": "<div class=\"alert alert-warning\" role=\"alert\">This tool is currently being finalised and is undergoing open testing - part of this work is to determine an appropriate level of instructions to ensure that the tool is appropriately accessible.<br/><br/>An introduction to the tool, covering it general purpose is provided on the [About page|./about.html]. If you have any questions or suggestions during this testing phase please do post then through the GitHub Issues system [here|https://github.com/jpadfield/Lux-Allowance-Calculator/issues].</div>",
 	"content right": ""
 	},
 "about": {
