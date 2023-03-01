@@ -260,6 +260,40 @@
       ... brief description of this object type</div></div>
     
       <div class="row ">
+	  <div class="col-md-6 col-sm-12 pb-2">
+    <div style="border: 1px solid #e9ecef; border-top-right-radius: 30rem; border-bottom-right-radius: 30rem;">
+      <div class="input-group ">
+            <span class="input-group-append" style="width:150px;" id="basic-addon-minLux" for="minLux">
+      <span class="input-group-text d-block">
+        Min Display Lux
+      </span>
+    </span>							
+	<input onChange="luxMMUpdate(this.id)" placeholder="Min Lux Levels" type="text" class="form-control " id="minLux" name="minLux"  aria-label="Min Display Lux" aria-describedby="basic-addon-minLux" readonly>
+	    <span class="input-group-append" style="width:70px;" >
+      <span class="input-group-text d-block" id="basic-addon-minLux-units">
+        Lux
+      </span>
+    </span>	
+      </div>
+    </div>	
+  </div>
+	  <div class="col-md-6 col-sm-12 pb-2">
+    <div style="border: 1px solid #e9ecef; border-top-right-radius: 30rem; border-bottom-right-radius: 30rem;">
+      <div class="input-group ">
+            <span class="input-group-append" style="width:150px;" id="basic-addon-maxLux" for="maxLux">
+      <span class="input-group-text d-block">
+        Max Lux
+      </span>
+    </span>							
+	<input onChange="luxMMUpdate(this.id)" placeholder="Max Lux Levels" type="text" class="form-control " id="maxLux" name="maxLux"  aria-label="Max Lux" aria-describedby="basic-addon-maxLux" readonly>
+	    <span class="input-group-append" style="width:70px;" >
+      <span class="input-group-text d-block" id="basic-addon-maxLux-units">
+        Lux
+      </span>
+    </span>	
+      </div>
+    </div>	
+  </div>
           <div class="col-md-6 col-sm-12 pb-2">
     <div style="border: 1px solid #e9ecef; border-top-right-radius: 30rem; border-bottom-right-radius: 30rem;">
       <div class="input-group ">
@@ -282,10 +316,10 @@
       <div class="input-group ">
             <span class="input-group-append" style="width:150px;" id="basic-addon-luxlevel" for="luxlevel">
       <span class="input-group-text d-block">
-        Standard
+        Display
       </span>
     </span>							
-	<input onChange="luxUpdate(this.id)" placeholder="Lux Levels" type="text" class="form-control " id="luxlevel" name="luxlevel"  aria-label="Standard" aria-describedby="basic-addon-luxlevel" >
+	<input onChange="luxUpdate(this.id)" placeholder="Lux Levels" type="text" class="form-control " id="luxlevel" name="luxlevel"  aria-label="Display" aria-describedby="basic-addon-luxlevel" >
 	    <span class="input-group-append" style="width:70px;" >
       <span class="input-group-text d-block" id="basic-addon-luxlevel-units">
         Lux
@@ -299,10 +333,10 @@
       <div class="input-group ">
             <span class="input-group-append" style="width:150px;" id="basic-addon-maintenanceLux" for="maintenanceLux">
       <span class="input-group-text d-block">
-        Cleaning/Security
+        Operational
       </span>
     </span>							
-	<input onChange="luxUpdate(this.id)" placeholder="" type="text" class="form-control " id="maintenanceLux" name="maintenanceLux"  aria-label="Cleaning/Security" aria-describedby="basic-addon-maintenanceLux" >
+	<input onChange="luxUpdate(this.id)" placeholder="" type="text" class="form-control " id="maintenanceLux" name="maintenanceLux"  aria-label="Operational" aria-describedby="basic-addon-maintenanceLux" >
 	    <span class="input-group-append" style="width:70px;" >
       <span class="input-group-text d-block" id="basic-addon-maintenanceLux-units">
         Lux
@@ -316,10 +350,10 @@
       <div class="input-group ">
             <span class="input-group-append" style="width:150px;" id="basic-addon-overnightLux" for="overnightLux">
       <span class="input-group-text d-block">
-        Overnight
+        Room Closed
       </span>
     </span>							
-	<input onChange="luxUpdate(this.id)" placeholder="" type="text" class="form-control " id="overnightLux" name="overnightLux"  aria-label="Overnight" aria-describedby="basic-addon-overnightLux" >
+	<input onChange="luxUpdate(this.id)" placeholder="" type="text" class="form-control " id="overnightLux" name="overnightLux"  aria-label="Room Closed" aria-describedby="basic-addon-overnightLux" >
 	    <span class="input-group-append" style="width:70px;" >
       <span class="input-group-text d-block" id="basic-addon-overnightLux-units">
         Lux
@@ -389,7 +423,7 @@
 	<script src="js/luxAllCalc.js"></script>
 	<script>
 		
-    types = {"No Light Sensitivity":{"annual":1000000,"comment":"Theoretically such objects do not have a defined maximum light level or annual cumulative light exposure.  However, within the National Gallery the lighting should be consistent with the display of other objects nearby \u2013 so the defined limits are based on perceptual or aesthetic considerations rather than conservation reasons. Used for most inorganic material including stone, iron, copper alloy, glass, ceramics, enamel.","luxlevel":250,"maxLux":1000,"overnightLux":10,"maintenanceLux":150,"period":100},"Low Light Sensitivity":{"annual":600000,"comment":"Used for the majority of the National Gallery painting collection. Applicable for many organic materials - canvas and panel paintings, oil and or tempera, acrylic; also works on paper where the substrate is not exposed and the medium has low responsivity to light. Can also be appropriate for some undyed leather, horn, bone, unpainted ivory, or wax.","luxlevel":150,"maxLux":250,"overnightLux":10,"maintenanceLux":50,"period":100,"selected":true},"Medium Light Sensitivity":{"annual":150000,"comment":"Used for the National Gallery\u2019s pastels, works on paper or vellum (where substrate exposed). Can also be appropriate for textiles, prints and drawings, manuscripts, gouache, watercolour, dyed leather, fur, feathers, distemper in frescos, wallpapers, oriental lacquer. Depending on the required opening hours objects in this category may need to rotated off display for a period of time to ensure the defined Annual Cumulative Light Dose is not exceeded.","luxlevel":50,"maxLux":50,"overnightLux":5,"maintenanceLux":35,"period":100},"High Light Sensitivity":{"annual":15000,"comment":"Highly senstitive objects might be in pristine condition, and\/or contain very light sentitive dyes, lake and or other pigments; for paintings, textiles, ivory, bone, and waxes, but also for some photographs, coloured prints and drawings. Objects in this category will need to be rotated off display for significant periods of time to ensure the defined Annual Cumulative Light Dose is not exceeded.","luxlevel":50,"maxLux":50,"overnightLux":5,"maintenanceLux":35,"period":5},"Special Light Sensitivity":{"annual":50000,"comment":"Bespoke or custom lighting restrictions based on the particular material or display requirements for specific objects.  Target light levels, permissible variations, cumulative annual light exposure limits and required periods of rotation into dark storage may be required and are defined on a case-by-case basis. The automatic values given is this tool are only intended as a starting point and will need to be edited as required.","luxlevel":80,"maxLux":250,"overnightLux":5,"maintenanceLux":35,"period":15}}
+    types = {"No Light Sensitivity":{"annual":1000000,"comment":"Theoretically such objects do not have a defined maximum light level or annual cumulative light exposure.  However, within the National Gallery the lighting should be consistent with the display of other objects nearby \u2013 so the defined limits are based on perceptual or aesthetic considerations rather than conservation reasons. Used for most inorganic material including stone, iron, copper alloy, glass, ceramics, enamel.","luxlevel":250,"maxLux":1000,"minLux":35,"overnightLux":10,"maintenanceLux":150,"period":100},"Low Light Sensitivity":{"annual":600000,"comment":"Used for the majority of the National Gallery painting collection. Applicable for many organic materials - canvas and panel paintings, oil and or tempera, acrylic; also works on paper where the substrate is not exposed and the medium has low responsivity to light. Can also be appropriate for some undyed leather, horn, bone, unpainted ivory, or wax.","luxlevel":150,"maxLux":250,"minLux":35,"overnightLux":10,"maintenanceLux":50,"period":100,"selected":true},"Medium Light Sensitivity":{"annual":150000,"comment":"Used for the National Gallery\u2019s pastels, works on paper or vellum (where substrate exposed). Can also be appropriate for textiles, prints and drawings, manuscripts, gouache, watercolour, dyed leather, fur, feathers, distemper in frescos, wallpapers, oriental lacquer. Depending on the required opening hours objects in this category may need to rotated off display for a period of time to ensure the defined Annual Cumulative Light Dose is not exceeded.","luxlevel":50,"maxLux":50,"minLux":35,"overnightLux":5,"maintenanceLux":35,"period":100},"High Light Sensitivity":{"annual":15000,"comment":"Highly senstitive objects might be in pristine condition, and\/or contain very light sentitive dyes, lake and or other pigments; for paintings, textiles, ivory, bone, and waxes, but also for some photographs, coloured prints and drawings. Objects in this category will need to be rotated off display for significant periods of time to ensure the defined Annual Cumulative Light Dose is not exceeded.","luxlevel":50,"maxLux":50,"minLux":35,"overnightLux":5,"maintenanceLux":35,"period":5},"Special Light Sensitivity":{"annual":50000,"comment":"Bespoke or custom lighting restrictions based on the particular material or display requirements for specific objects.  Target light levels, permissible variations, cumulative annual light exposure limits and required periods of rotation into dark storage may be required and are defined on a case-by-case basis. The automatic values given is this tool are only intended as a starting point and will need to be edited as required.","luxlevel":80,"maxLux":250,"minLux":35,"overnightLux":5,"maintenanceLux":35,"period":15}}
     profiles = {"NG Standard":{"selected":true,"default":{"openingHours":8,"maintenance":2},"friday":{"openingHours":11,"maintenance":2}},"NG Exception (1)":{"default":{"openingHours":8,"maintenance":1},"friday":{"openingHours":11,"maintenance":1}},"Custom":{"default":{"openingHours":8,"maintenance":1},"friday":{"openingHours":11,"maintenance":1},"saturday":{"openingHours":11,"maintenance":1}}}
     
 		
