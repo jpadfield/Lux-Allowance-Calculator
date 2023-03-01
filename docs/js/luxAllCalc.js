@@ -28,7 +28,7 @@ const queryString = window.location.search;
 
 var vars = {'start':now, 'end':then, 'type':false,
 	'prof':false,	'luxlevel':false, 'maintenanceLux':false,
-	'overnightLux':false, 'maxLux':false, 'period':false, 
+	'overnightLux':false, 'maxLux':false, 'minLux':false, 'period':false, 
 	'url': false, 'debug':false, "annual":false, "data":false,
   "custom":false}
   
@@ -88,46 +88,82 @@ function luxUpdate (inputID)
 	 luxValidate (inputID);	
 	 calculateAllowance()}
    
+function luxMMUpdate (inputID)
+	{
+  var cInput = document.getElementById(inputID);
+	vars[inputID] = parseInt(cInput.value);	
+  
+  let mi = parseInt($("#minLux")[0].value);
+  let ma = parseInt($("#maxLux")[0].value);
+     
+  if (mi < 0 ) {vars["minLux"] = 0;}     
+  if (ma < 0 ) {vars["maxLux"] = 10;}    
+  if (ma <= mi ) {vars["maxLux"] = mi + 10;}
+  
+  let clux = vars["luxlevel"]
+      
+  populateInputs();
+  }
+   
 
-function otherUpdate (inputID, min=1, max=100)
+function otherUpdate (inputID, min=1, max=100, isInt=false)
 	{var cInput = document.getElementById(inputID);
-	 vars[inputID] = parseInt(cInput.value);
+	 if (isInt) {vars[inputID] = parseInt(cInput.value);}
+	 else {vars[inputID] = parseFloat(cInput.value);}
 	 otherValidate (inputID, min, max);	
 	 calculateAllowance()}
 
 function luxValidate (inputID)
 	{
+  //showDebug (false, "luxValidate: "+ inputID)
 	var inputLU = document.getElementById(inputID);
 	$(inputLU).removeClass("alert-success alert-danger alert-warning");
-	
-	if (vars[inputID] === false || vars[inputID] == use[inputID])
-		{vars[inputID] = parseInt(use[inputID]);}
+	  
+	if (vars[inputID] === false)
+		{showDebug (inputID + " false so reset");
+     vars[inputID] = parseInt(use[inputID]);}
+	else if (vars[inputID] < 0)
+		{showDebug (inputID + " limited to positive values");
+		 vars[inputID] = 0;
+		 $(inputLU).addClass("alert alert-danger");}
 	else if (vars[inputID] > vars['maxLux'] && inputID != "annual")
 		{showDebug (inputID + " limited to the value of maxLux: "+vars['maxLux']);
 		 vars[inputID] = parseInt(vars['maxLux']);
 		 $(inputLU).addClass("alert alert-danger");}
+	else if (vars[inputID] < vars['minLux'] && inputID == "luxlevel")
+		{showDebug (inputID + " limited to the value of minLux: "+vars['minLux']);
+		 vars[inputID] = parseInt(vars['minLux']);
+		 $(inputLU).addClass("alert alert-danger");}  
+  else if (vars[inputID] == use[inputID])
+		{showDebug (inputID + " no change");}
 	else
-		{$(inputLU).addClass("alert alert-warning");}	
+		{showDebug (inputID + " changed");
+     $(inputLU).addClass("alert alert-warning");}	
+   
 	inputLU.value = vars[inputID];
 	}
   
-function otherValidate (inputID, min, max)
+function otherValidate (inputID, min, max, isInt=false)
 	{
 	var inputLU = document.getElementById(inputID);
 	$(inputLU).removeClass("alert-success alert-danger alert-warning");
 	
 	if (vars[inputID] === false || vars[inputID] == use[inputID])
-		{vars[inputID] = parseInt(use[inputID]);}
+		{vars[inputID] = use[inputID];}
 	else if (vars[inputID] > max)
 		{showDebug (inputID + " limited to the value of "+ max);
-		 vars[inputID] = parseInt(max);
+		 vars[inputID] = max;
 		 $(inputLU).addClass("alert alert-danger");}
 	else if (vars[inputID] <  min)
 		{showDebug (inputID + " must be greater than "+ min);
-		 vars[inputID] = parseInt(min);
+		 vars[inputID] = min;
 		 $(inputLU).addClass("alert alert-danger");}
 	else
 		{$(inputLU).addClass("alert alert-warning");}
+    
+  if (isInt) {vars[inputID] = parseInt(vars[inputID]);}
+  else {vars[inputID] = parseFloat(vars[inputID]);}
+  
 	inputLU.value = vars[inputID];
 	}
 	
@@ -137,6 +173,7 @@ function typeUpdate(which=false)
 	vars["type"] = document.getElementById("type").value
 	use = types[vars["type"]]
 	vars['maxLux'] = parseInt(use['maxLux']);
+	vars['minLux'] = parseInt(use['minLux']);
 	vars['annual'] = parseInt(use['annual']);
 	vars['luxlevel'] = parseInt(use['luxlevel']);
 	$(".form-control").removeClass("alert alert-warning");
@@ -149,6 +186,7 @@ function typeUpdate(which=false)
 function profUpdate()
 	{
   //console.log("profUpdate: " + vars["prof"] + " -- " + document.getElementById("prof").value)
+  
 	vars["prof"] = document.getElementById("prof").value
 	prof = profiles[vars["prof"]];
 	populateInputs()
@@ -178,6 +216,10 @@ function populateInputs()
 	var selectType = document.getElementById("type");
 	var selectProf = document.getElementById("prof");
 	var inputAN = document.getElementById('annual');
+  
+  
+	var inputMax = document.getElementById('maxLux');
+	var inputMin = document.getElementById('minLux');
   		
 	if (newInputs) {    
     var customProfile = false;
@@ -218,7 +260,7 @@ function populateInputs()
 
   inputStart.value = getDateStr(vars["start"])
 	inputEnd.value = getDateStr(vars["end"])
-     
+    
   if (typeof types[vars["type"]] == 'undefined') {
     if (typeDefault) {vars["type"] = typeDefault;}
     else {vars["type"] = Object.keys(types)[0];}
@@ -226,9 +268,13 @@ function populateInputs()
 	selectType.value = vars["type"];
   
   if (vars["type"] == "Special Light Sensitivity")
-    {$("#annual").removeAttr('readonly');}
+    {$("#annual").removeAttr('readonly');
+     $("#minLux").removeAttr('readonly');
+     $("#maxLux").removeAttr('readonly');}
   else
-    {$("#annual").attr('readonly','readonly');}
+    {$("#annual").attr('readonly','readonly');
+     $("#minLux").attr('readonly','readonly');
+     $("#maxLux").attr('readonly','readonly');}
     
 	var displayDetails = document.getElementById('typeComment');
 	displayDetails.innerHTML = types[vars["type"]]["comment"];	
@@ -254,11 +300,11 @@ function populateInputs()
 		{
 		var ca = prof[key]
     
-    if (ca["openingHours"] == 1) {ohs = "hr"}
-    else {ohs = "hrs"}
+    if (ca["openingHours"] == 1) {ohs = "hour"}
+    else {ohs = "hours"}
     
-    if (ca["maintenance"] == 1) {xhs = "hr"}
-    else {xhs = "hrs"}
+    if (ca["maintenance"] == 1) {xhs = "hour"}
+    else {xhs = "hours"}
 		
 		if (key !== "default")
 			{
@@ -273,7 +319,7 @@ function populateInputs()
       if (ca["maintenance"] > 0)
         {          
         if (closed) {
-          exStr = ", with " + ca["maintenance"] + " "+xhs+" for cleaning, maintenance and security activities";}
+          exStr = ", with " + ca["maintenance"] + " "+xhs+" for operational (cleaning, maintenance, security, etc) activities";}
         else {
           exStr = ", plus an extra " + ca["maintenance"] + " "+xhs;}
         }
@@ -283,14 +329,23 @@ function populateInputs()
       str = str + "<br/>&nbsp;&nbsp;&nbsp;&nbsp; + " + capitalizeFirstLetter(key) + ": " + opStr + exStr;
       }
 		else
-			{str = str + "Open for " + ca["openingHours"] + " "+ohs+" a day, with an extra " + ca["maintenance"] + " " + xhs + " for cleaning, maintenance and security activities"}
+			{str = str + "Open for " + ca["openingHours"] + " "+ohs+" a day, with an extra " + ca["maintenance"] + " " + xhs + " for operational (cleaning, maintenance, security, etc) activities"}
 		}
 
-	displayDetails = document.getElementById('profileDetails');
-	displayDetails.innerHTML = str;
-
-	if (!vars['maxLux'])
+  if (typeof vars['maxLux'] === undefined || typeof vars['maxLux'] === "boolean" )
 		{vars['maxLux'] = parseInt(use['maxLux']);}
+    
+	if (typeof vars['minLux'] === undefined || typeof vars['minLux'] === "boolean" )
+		{vars['minLux'] = parseInt(use['minLux']);}
+  
+  inputMax.value = vars["maxLux"]
+	inputMin.value = vars["minLux"]
+  
+	displayDetails = document.getElementById('profileDetails');
+	displayDetails.innerHTML = str;  
+  
+  //typeDetails = document.getElementById('typeComment');
+	//typeDetails.innerHTML = typeDetails.innerHTML + "<br/><br/>With a display lux minimum of " + vars['minLux'] +" Lux and a display lux maximum of " + vars['maxLux'] + " Lux.";
 		
 	if (!vars['period'])
 		{vars['period'] = parseInt(use['period']);}	
@@ -302,7 +357,7 @@ function populateInputs()
 	luxValidate ('luxlevel');
 	luxValidate ('maintenanceLux');
 	luxValidate ('overnightLux');
-  otherValidate ('period', 1, 100);
+  otherValidate ('period', 0.1, 100);
 	
 	if(ie11) /*required to ensure values are displayed*/
 		{showDebug("Updating padding on date inputs");
@@ -400,18 +455,29 @@ function calculateAllowance()
     // Some dark storage time is planned
     if (vars["period"] != 100) 
       {      
+      showDebug(false, "Period: " + vars["period"])
+      showDebug(false, "Float Period: " + parseFloat(vars["period"]))
       let totalEventPeriod = days * (100/parseFloat(vars["period"])) ; //Days
       plannedDarkPeriod = Math.ceil((totalEventPeriod - days) * 24); //Hours
-      let plannedDarkDays = Math.floor(plannedDarkPeriod/24);
-      let plannedDarkHours = Math.ceil(plannedDarkPeriod % 24);
+      let plannedDarkYears = Math.floor(plannedDarkPeriod/(24 * 365));
+      let plannedDarkRemainder = plannedDarkPeriod % (24 * 365)
+      let plannedDarkDays = Math.floor(plannedDarkRemainder/24);
+      let plannedDarkHours = Math.ceil(plannedDarkRemainder % 24);
       
       additionalAllowance = Math.floor(allowancePerHour * plannedDarkPeriod);
       adjustedAllowance = allowance + additionalAllowance;      
       useRemainder = Math.floor (adjustedAllowance - luxTotal)
       
-      plannedDarkString = tab + tab + "Planned additional dark storage compensation: " + 
-        plannedDarkDays +" Days "+ plannedDarkHours+" Hours" + "<br/>" + 
-        tab + tab + "<b>Adjusted allowance: " + adjustedAllowance + "Lux Hrs</b><br/>"
+      plannedDarkString = tab + tab + "Planned additional dark storage compensation: ";
+        
+      if (plannedDarkYears)
+        {plannedDarkString = plannedDarkString +  plannedDarkYears +" Years ";}
+      if (plannedDarkDays)
+        {plannedDarkString = plannedDarkString +  plannedDarkDays +" Days ";}
+      if (plannedDarkHours)
+        {plannedDarkString = plannedDarkString +  plannedDarkHours+" Hours"} 
+        
+      plannedDarkString = plannedDarkString + "<br/>" + tab + tab + "<b>Adjusted allowance: " + adjustedAllowance + "Lux Hrs</b><br/>"
         
       showDebug(false, plannedDarkString)
       }
@@ -440,13 +506,24 @@ function calculateAllowance()
       if (plannedDarkPeriod) 
         {darkPeriod = darkPeriod + plannedDarkPeriod;
          tstr = " total ";}
-         
-      var ddays = Math.floor(darkPeriod/24);
-      var dhours = Math.ceil(darkPeriod % 24);
+       
+      let dyears = Math.floor(darkPeriod/(24 * 365));
+      let dremainder = darkPeriod % (24 * 365)
+      var ddays = Math.floor(dremainder/24);
+      var dhours = Math.ceil(dremainder % 24);
       
       resultStr = resultStr + plannedDarkString + "Allocated: " + luxTotal + 
         " Lux Hrs<br/><b>CAUTION - OVEREXPOSURE BY: " + (useRemainder * -1) + " Lux Hrs<br/>" +
-        tab + tab + "Required"+tstr+"dark storage compensation: " +ddays+" Days "+dhours+" Hours</b>";
+        tab + tab + "Required"+tstr+"dark storage compensation: ";
+           
+      if (dyears)
+        {resultStr = resultStr +  dyears +" Years ";}
+      if (ddays)
+        {resultStr = resultStr +  ddays +" Days ";}
+      if (dhours)
+        {resultStr = resultStr +  dhours +" Hours ";}
+          
+      resultStr = resultStr +  "</b>";
       resultClass = "alert-danger";
       }
 
@@ -612,7 +689,7 @@ function customValidate ()
         "maintenance": xv,
         "openingHours": ov
       };      
-    });  
+    });
     
   if (!error) {
     profiles["Custom"] = newCustom

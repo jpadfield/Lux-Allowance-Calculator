@@ -170,14 +170,17 @@ function extensionLuxAllowance ($d, $pd)
     "type" => formInput("type", "Object Type", "select", false, 12, 150, "typeUpdate", "", "30"),
     "annual" => formInput("annual", "Annual Allowance", "text", false,
       6, 150, "luxUpdate", "Lux Hrs", 70, true),
-    "luxlevel" => formInput("luxlevel", "Standard", "text", false, 6, 150,
-      "luxUpdate", "Lux", 70, false, "Lux Levels"),
-    "maintenance" => formInput("maintenanceLux", "Cleaning/Security",
+    "luxlevel" => formInput("luxlevel", "Display", "text", false, 6, 150, "luxUpdate", "Lux", 70, false, "Lux Levels"),    
+    "maintenance" => formInput("maintenanceLux", "Operational",
       "text", false, 6, 150, "luxUpdate", "Lux", 70, false),
-    "overnight" => formInput("overnightLux", "Overnight", "text", false,
+    "overnight" => formInput("overnightLux", "Room Closed", "text", false,
       6, 150, "luxUpdate", "Lux", 70, false),
     "period" => formInput("period", "Display Period", "text", false,
-      6, 150, "otherUpdate", "%", 70, false)
+      6, 150, "otherUpdate", "%", 70, false),
+    "minLux" => formInput("minLux", "Min Display Lux", "text", false, 6, 150, 
+      "luxMMUpdate", "Lux", 70, true, "Min Lux Levels"),
+    "maxLux" => formInput("maxLux", "Max Lux", "text", false, 6, 150, 
+      "luxMMUpdate", "Lux", 70, true, "Max Lux Levels")
     );
     
     		//do we need tooltips?			
@@ -204,8 +207,10 @@ function extensionLuxAllowance ($d, $pd)
       
     $extraHrs = formInput("extrahours", "", "text", false, 12, "",
       "customValidate", "Hrs", 70, false, "Extra Hrs ...", false, "extrahrs");
-		ob_start();
-		echo <<<END
+
+      
+    ob_start();
+    echo <<<END
 <div  id="customGroup" style="display:none;padding-bottom:10px;">		
   <div class="row pb-1 d-md-block d-none" style="">  	
     <div class="row"> 
@@ -292,6 +297,8 @@ END;
       $alerts[type]
     
       <div class="row ">
+	$inputs[minLux]
+	$inputs[maxLux]
         $inputs[annual]
         $inputs[luxlevel]
         $inputs[maintenance]

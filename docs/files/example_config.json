@@ -5,6 +5,7 @@
 			"comment": "An example configuration file to demonstrate how additional predefined details can be used within the tool.",
 			"luxlevel": 75,
 			"maxLux": 100,
+			"minLux": 35,
 			"overnightLux": 10,
 			"maintenanceLux": 50,
 			"period": 50
@@ -13,7 +14,8 @@
 			"annual": 450000,
 			"comment": "A second example configuration file to also demonstrate how additional predefined details can be used within the tool.",
 			"luxlevel": 100,
-			"maxLux": 100,
+			"maxLux": 150,
+			"minLux": 25,
 			"overnightLux": 10,
 			"maintenanceLux": 75,
 			"period": 100
