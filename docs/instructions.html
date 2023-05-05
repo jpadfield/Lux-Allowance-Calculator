@@ -75,7 +75,115 @@
 							
 						</div></div><!--/span--></div></div><!--/row-->    <div class="container-fluid "><div class="row h-100"><div class="col-12 flex-grow-1">							
 								<div class="h-100 d-flex flex-column">
-							<div class="alert alert-warning" role="alert">This tool is currently being finalised and is undergoing open testing - part of this work is to determine an appropriate level of instructions to ensure that the tool is appropriately accessible.<br/><br/>An introduction to the tool, covering it general purpose is provided on the <a href='./about.html'>About page</a>. If you have any questions or suggestions during this testing phase please do post then through the GitHub Issues system <a href='https://github.com/jpadfield/Lux-Allowance-Calculator/issues'>here</a>.</div><div class="foonote"><ul></ul></div>
+							<div class="alert alert-warning" role="alert">
+  A general introduction to the tool, covering it general purpose is provided on the <a href='./about.html'>About page</a>. If you have any questions or suggestions relating to this tool please do post then through the GitHub Issues system <a href='https://github.com/jpadfield/Lux-Allowance-Calculator/issues'>here</a>.
+</div>
+
+<h3>Calculation Summary</h3>
+
+<p>The purpose of the Lux Allowance Calculator is to establish if a planned period of display can be accommodated based on a maximum permissible annual exposure allowance, or if adjustments will be required to ensure the displayed objects are not over exposed. This is achieved by calculating a possible allocated total of Lux Hrs, based on the selected dates, opening hours, and set points and then comparing it to the appropriate proportion of the select Annual Allowance.</p>
+
+<div class="alert col-md-12 alert-success" role="alert">
+  If the <b>Allocated total</b> of Lux Hrs is less than the maximum permissible <b>annual exposure allowance</b> the <b>Calculation Summary</b> section will be coloured green as shown here. 
+  <br/><br/>
+  <ul>
+    <li>The first line of information will include the length of the selected display period and the maximum appropriate proportion of the select Annual Allowance. If the <b>Display Period</b> value is adjusted, additional information is provided to highlight any changes to the standard maximum allowance, see below.</li>
+    <li>The next line displays the total allocated Lux Hrs required for the display, as calculated by the tool, along with any remain lux allowance that could be used to accommodate the need for additional activities such as out of hours events.</li>
+    <li>The next three lines then provides details of how main actual hours of exposure the remaining allowance can accommodate, at 100%, 50% and 40% of the selected normal display levels. This has been included because out of hours events often require lower levels of light.</li>
+  </ul>  
+</div>
+
+<div class="alert col-md-12 alert-danger" role="alert">
+  If the <b>Allocated total</b> of Lux Hrs is greater than the maximum permissible <b>annual exposure allowance</b> the <b>Calculation Summary</b> section will be coloured red as shown here. This indicates that the current lighting plan will result in too much light exposure and either the lighting plan will need to be adjusted or some additional days of dark storage will need to be added to the length of the display period. 
+  <br/><br/>
+  <ul>
+        <li>The first line of information will include the length of the selected display period and the maximum appropriate proportion of the select Annual Allowance. If the <b>Display Period</b> value is adjusted, additional information is provided to highlight any changes to the standard maximum allowance, see below.</li>
+    <li>The next line displays the total allocated Lux Hrs required for the display, as calculated by the tool.</li>
+    <li>The next line highlights <b>CAUTION - OVEREXPOSURE</b> and indicates how many extra Lux Hrs of exposure would be required.</li>
+    <li>The final line indicates how many extra additional or rest days of dark storage would need to be added to the length of the display period to accommodate the required extra exposure.</li>
+  </ul>  
+</div>
+
+
+<h3>Simple Calculations</h3>
+<p>General calculations can be carried out as follows:</p>
+
+<ul>
+  <li>Set the required <b>Start</b> and <b>End</b> dates but clicking on the date fields and selecting the required dates.</li>
+  <li>Select the appropriate <b>Opening Profile</b> which will define the required opening hours for the display period. (see below for working with <b>Custom</b> values.</li>
+  <li>Select the appropriate <b>Object Type</b>, this will determine the maximum annual lux allowance and set the various default Lux set points.</li>  
+  <li>The calculated number of Lux Hrs, based on the selection made, are displayed in the <b>Calculation Summary</b> section near the bottom of the page.</li>
+</ul>
+
+<h3>Sharing Results</h3>
+<p>The current dates, selections and settings can always be shared via the automatically updated <b>Shareable Link</b> near the bottom of the page. Each time any adjustments are made to the calculations shown on the page the underlying link is automatically updated. The link itself is slightly longer as all of the details on the page are compressed into the link itself rather than referencing any database.</p>
+
+<h3>Custom Opening Hours</h3>
+<p>The default tool provides two options for opening hours, based on those used at the National Gallery, London, but the tool also provides the option to define custom opening hours. The form provided, see below, allows users to define a default pair of display and operational hours values for a given week. The user can then add in additional rows to indicate if any of the days in the week deviate from this default. Please note that closure days can be indicated with a "0" value for the display hours value, but any exposure required for operational hours and the background level experienced while the room is closed will still count towards the allocated total for each each of the display period.</p>
+
+<figure class="figure"><img src="graphics/instructions_fig_01.png" class="figure-img img-fluid rounded" alt=\"An example of the form layout used to select custom opening hours."><figcaption class="figure-caption">An example of the form layout used to select custom opening hours.</figcaption></figure>
+
+<ul>
+  <li>The default settings for <b>Custom Hours</b> included the default setting along with alternative setting for longer opening times on Friday and Saturday.</li>
+  <li>The values for the default setting can be edited as required.
+  <li>The values for the alternative days can also be edited or deleted as required.</li>
+  <li>The results displayed in the <b>Calculation Summary</b> will be automatically updated as changes are made to the custom opening hours.</li>
+</ul>
+
+<h3>Altering Lux Set-points and Limits</h3>
+<p>The figure below shows all of the various lux set-points and limits that can be changed to adjust the calculations. The default values for all of these fields are set by the <b>Object Type</b> drop down menu.</p>
+
+<figure class="figure"><img src="graphics/instructions_fig_02.png" class="figure-img img-fluid rounded" alt=\"An example of the form layout used to alter the various lux set-points and limits."><figcaption class="figure-caption">An example of the form layout used to alter the various lux set-points and limits.</figcaption></figure>
+<ul>
+  <li>Select the required profile from the <b>Object Type</b> drop-down menu.</li>
+  <li>Three of the values, <b>Min Display Lux</b>, <b>Max Lux</b> and <b>Annual Allowance</b> are normally marked as read-only, with a grey background. If a user does need to change these values it can be done by selecting the <b>Special Light Sensitivity</b> object type.</li>
+  <li>The non-read only fields can all be edited as required, but please note the <b>Min Display Lux</b> and <b>Max Lux</b> field values will limit the numbers that can be entered into some of the other fields.</li>
+  <li>New field values will be taken into account when the user presses the <b>return</b> key or clicks anywhere else on the page.</li>
+  <li>Once you have edited a field and clicked somewhere else on the page the background colour of the field will change to indicate the change in value. Valid changes will be highlighted in yellow. However, when a change is requested that exceeds the relevant Max or Min values the entered value will be automatically changed to equal the relevant limit and the background will be flagged as red.</li>
+  <li>The <b>Display Period</b> field is discussed in more detail below.</li>  
+</ul>
+
+<h3>Display Period</h3>
+<p>The <b>Display Period</b> field, in the <b>Lux Set-points and Limits</b> section, allows the user to specifically plan for additional or rest days of dark storage on top of the defined display period. This is required for more light sensitive works that may not have a high enough exposure allowance to be displayed all of the time. If additional or rest days of dark storage are added, the total length length of time used to determine the proportion of the <b>annual exposure allowance</b> available for a given display event increases.</p>
+
+<p>For example (simplified for ease of explanation)</p>
+
+<ul>
+  <li>If an exhibition was planned to last for 6 months the lighting allowance for the exhibition would be half of the maximum annual allowance. So, for a <b>Medium Light Sensitive</b> object, like pastel drawing, with an annual allowance of 150,000 Lux Hrs, the exhibition allowance would be half of that at 75,000 Lux Hrs.</li>
+  <li>Now if, due to longer opening hours and the need for higher display lux levels, the six month exhibition actually needed the full 150,000 Lux Hrs a <b>Medium Light Sensitive</b> object would end up being over exposed.</li>
+  <li>If, as part of the exhibition plan, the <b>Medium Light Sensitive</b> object is actually put into dark storage for six months, before or after the exhibition, the exhibition allowance can be doubled as over the 12 month period of the exhibition and the dark storage the <b>Medium Light Sensitive</b> object would not exceed its maximum annual allowance.</li>
+  <li>In this case the exhibition period can be seen as being half, or 50%, of the total period of time being considered when calculating maximum exhibition allowance.</li>
+  <li>For this example the <b>Display Period</b> value in the <b>Lux Set-points and Limits</b> section can be set to <b>50</b> and the required number of days, in this case about 180, will be indicated in the <b>Calculation Summary</b>.</li>
+</ul>
+
+<p>This is a complex process to explain and calculate, potential improvements are being considered but thoughts and suggestions are welcome and can be posted through the GitHub Issues system <a href='https://github.com/jpadfield/Lux-Allowance-Calculator/issues'>here</a>.</p>
+
+<h3>Adding New Default Settings</h3>
+<p>For infrequent use the options for <b>Custom</b> opening hours and fully editable limits and set-points with <b>Special Light Sensitivity</b> objects can allow a wide range of users to exploit this tool. However, it has been suggested that, if users need to use the tool frequently then having to repeatedly make a wide range of similar adjustments to the provided default, every time the tool was used, would be less than ideal. Therefore, two options have been considered to allow users to add additional or new default settings.</p>
+
+<ul>
+  <li>The default setting are all stored in one configuration file called <a href='https://raw.githubusercontent.com/jpadfield/Lux-Allowance-Calculator/master/build/lightallowance.json'>lightallowance.json</a> which can be found in the <a href='https://github.com/jpadfield/Lux-Allowance-Calculator/tree/master/build'>build</a> folder.</li>
+  <li>This file is structured in a format called <a href='https://en.wikipedia.org/wiki/JSON'>JSON</a>, which although a little tricky, is relatively human readable and the default setting could be edited as required if a users creates their own copy of the code.</li>
+  <li>New or additional default values can be added to the tool by either referencing an extra configuration file or by creating a new version of the system and editing the new <b>lightallowance.json</b> file.</li>
+</ul>
+
+<h4>Option 1: Reference an additional settings configuration file</h4>
+<ul>
+  <li>Additional information can be passed to web pages by adding information to the end of the page's URL.</li>
+  <li>The default URL for the main <b>Lux Allowance Calculator</b> is: <a href='https://national-gallery.github.io/Lux-Allowance-Calculator/'>https://national-gallery.github.io/Lux-Allowance-Calculator/</a></li>
+  <li>To reference an additional web based configuration file it's own URL needs to be added to the end of the default URL by adding <b>?url=https://link/address/to/the/new/file</b></li> 
+  <li>An example additional <a href='https://national-gallery.github.io/Lux-Allowance-Calculator/?files/example_config.json'>configuration file</a> has been included in the tool to demonstrate the process.</li>
+  <li>So the new full URL would be: <a href='https://national-gallery.github.io/Lux-Allowance-Calculator/?url=https://national-gallery.github.io/Lux-Allowance-Calculator/files/example_config.json'>https://national-gallery.github.io/Lux-Allowance-Calculator/?url=https://national-gallery.github.io/Lux-Allowance-Calculator/files/example_config.json</a>.</li>
+  <li>This new URL can then just be book marked and used in the future and the additional configuration options will be added to the drop down menus every time.</li>
+  <li>If a user does not already have access to facilities to host their own additional web based configuration file, they could host it free on GitHub. Instructions for creating a repository on GitHub to host a file are relatively easy to find on <a href='https://www.google.com/search?q=begginers+guide+to+creating+your+first+file+on+github&sxsrf=APwXEde39L2dZBonSfZt8iz29hFOJ6MlWQ%3A1683324934262&ei=BoBVZL7WD9b9gAanrZCYAw&ved=0ahUKEwi-8f2Fmt_-AhXWPsAKHacWBDMQ4dUDCA8&uact=5&oq=begginers+guide+to+creating+your+first+file+on+github&gs_lcp=Cgxnd3Mtd2l6LXNlcnAQAzIHCCEQoAEQCjIHCCEQoAEQCjoFCAAQogQ6CAghEBYQHhAdSgQIQRgAUABYtXhgxo8BaABwAXgAgAGmAYgB3A-SAQQyMy4ymAEAoAEBwAEB&sclient=gws-wiz-serp'>Google</a>.</li>
+    
+</ul>
+
+<h4>Option 2: Copy the software and edit the settings</h4>
+<ul>
+  <li>The process of copying this software, which is hosted on GitHub, is called <a href='https://docs.github.com/en/get-started/quickstart/fork-a-repo'>Forking</a>.</li>
+  <li>The <b>Lux Allowance Calculator</b> is based on a tool called <a href='https://jpadfield.github.io/simple-site'>Simple Site</a> and the generic instructions for forking a <b>Simple Site</b> based system can be found <a href='https://jpadfield.github.io/simple-site/howto.html'>here</a>.</li>  
+</ul><div class="foonote"><ul></ul></div>
 						</div></div><!--/span--></div></div><!--/row-->    
 <!-- End SimpleBDGrid -->
 
@@ -97,7 +205,7 @@
 	</div><!--/.container-->
     
 	
-	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/tether@2.0.0/dist/js/tether.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/jquery.json-viewer@1.5.0/json-viewer/jquery.json-viewer.js" crossorigin="anonymous"></script>
