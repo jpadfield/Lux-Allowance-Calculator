@@ -160,7 +160,9 @@ function extensionLuxAllowance ($d, $pd)
   $titles = array(
     "dates" => titleRow ("Dates"),
     "openinghours" => titleRow ("Opening Hours"),
-    "luxlevels" => titleRow ("Object Type - Lux Levels")
+    "luxlevels" => titleRow ("Object Type"),
+    "luxlimits" => titleRow ("Lux Set-points and Limits"),
+    "result" => titleRow ("Calculation Summary")
     );
 
   $inputs = array(
@@ -189,7 +191,7 @@ function extensionLuxAllowance ($d, $pd)
   $alerts = array(
     "prof" => alertRow ("profileDetails", "info", "... selected profile details"),
     "type" => alertRow ("typeComment", "info", "... brief description of this object type"),
-    "result" => alertRow ("result", "success", "... the calculated results", 1)    
+    "result" => alertRow ("result", "success", "... the calculated results")    
     );
     
 	if (isset($d["file"]) and file_exists($d["file"]))
@@ -216,10 +218,10 @@ function extensionLuxAllowance ($d, $pd)
     <div class="row"> 
       <div class="col-md-4"></div>
       <div class="col-md-3 text-center">
-        <u>Opening Hours</u>
+        <u>Display Hours</u>
       </div>	    
       <div class="col-md-3 text-center">
-        <u>Extra Cleaning/Security Hours</u>
+        <u>Extra Operational Hours</u>
       </div>
       <div class="col-md-2">
       </div>
@@ -296,7 +298,9 @@ END;
 
       $alerts[type]
     
-      <div class="row ">
+      $titles[luxlimits]
+      
+      <div class="row" style="padding-bottom:0.5em">
 	$inputs[minLux]
 	$inputs[maxLux]
         $inputs[annual]
@@ -306,6 +310,7 @@ END;
         $inputs[period]
       </div>
 
+      $titles[result]
       $alerts[result]
 					
     <div class="row" style="padding-left:15px;padding-right:15px;">

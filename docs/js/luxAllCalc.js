@@ -43,6 +43,16 @@ var dayLuxTotals = {
 	friday:0,
 	saturday:0
 	};
+  
+var dayTotals = {	
+	sunday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	monday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	tuesday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	wednesday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	thursday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	friday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24},
+	saturday:{'lux': 0, 'display': 0, "ops": 0, "closed": 24}
+	};
 
 const dayNames = Object.keys(dayLuxTotals);
 
@@ -367,7 +377,14 @@ function populateInputs()
 	calculateAllowance()
 	}
 
-function dayLuxTotal (cday)
+//dayNames.forEach(function (item, index) {
+			//weekDisplayHours = weekDisplayHours + 
+      //weekClosedHours
+      //weekOpsHours = weekLuxTotal + dayLuxTotal (item);
+			//weekLuxTotal = weekLuxTotal + dayLuxTotal (item);
+			//});
+      
+function getDayTotals (cday)
 	{
 	// vars and prof are global variables
 
@@ -378,10 +395,34 @@ function dayLuxTotal (cday)
 		(vars["luxlevel"] * cp["openingHours"]) + // Standard opening times for this day
 		(vars['maintenanceLux'] * cp["maintenance"]) + // Opening for cleaning and or security checks
 		(vars['overnightLux'] * (24 - cp["openingHours"] - cp["maintenance"])); //overnight light levels
-
-	dayLuxTotals[cday] = dtotal
-	return (dtotal)
+  
+  var totals = {'lux': dtotal, 'display': cp["openingHours"], 
+      "ops": cp["maintenance"], "closed": (24 - cp["openingHours"] - cp["maintenance"])}
+      
+  // Update Global Variable
+  dayTotals[cday] = totals;
+	
+	//dayLuxTotals[cday] = dtotal
+  // Return days
+	return (totals)
 	}
+  
+      
+//function dayLuxTotal (cday)
+//	{
+//	// vars and prof are global variables
+
+//	if (typeof prof[cday] !== 'undefined') {var cp = prof[cday]}
+//	else	{var cp = prof["default"]}
+
+//	var dtotal =
+//		(vars["luxlevel"] * cp["openingHours"]) + // Standard opening times for this day
+//		(vars['maintenanceLux'] * cp["maintenance"]) + // Opening for cleaning and or security checks
+//		(vars['overnightLux'] * (24 - cp["openingHours"] - cp["maintenance"])); //overnight light levels
+
+//	dayLuxTotals[cday] = dtotal
+//	return (dtotal)
+//	}
 	
 function calculateAllowance()
 		{
@@ -389,12 +430,17 @@ function calculateAllowance()
 		showDebug(vars, "vars")
 		showDebug(use, "use")
 		showDebug(prof, "profiles")
+    showDebug(dayNames, "dayNames")
     showDebug(false, "Start Calculations ####################################")
 		
 		// Formulate the Difference between two dates 
 		diff = Math.ceil((vars["end"] - vars["start"])/1000); // return seconds
 		days = Math.floor(diff / (60*60*24)) + 1;
     showDebug(false, "Exhibitions Days: " + days)
+    
+    //daysInDarkStorage = Math.ceil((days * vars["period"])/100);
+    //daysOnDisplayDays = (days - daysInDarkStorage);
+    //showDebug(false, "DS: " + daysInDarkStorage + " RM:" + daysOnDisplayDays)
     
     if (vars["annual"] > 0)
 				{var useAnn = parseInt(vars["annual"]);}
@@ -409,13 +455,17 @@ function calculateAllowance()
 
 		var cluxvals = {}
 		var weekLuxTotal = 0;
+		var weekDisplayTotal = 0;
 		
 		dayNames.forEach(function (item, index) {
-			weekLuxTotal = weekLuxTotal + dayLuxTotal (item);
+      var dts = getDayTotals (item)
+			weekLuxTotal = weekLuxTotal + dts["lux"];
+			weekDisplayTotal = weekDisplayTotal + dts["display"];
 			});
 
-		showDebug(dayLuxTotals, "dayLuxTotals")
+		showDebug(dayTotals, "dayTotals")
 		showDebug(false, "weekLuxTotal: " + weekLuxTotal)
+		showDebug(false, "weekDisplayTotal: " + weekDisplayTotal)
 		showDebug(false, "Total Days: " + days)
 		showDebug(false, "fullWeeks: " + fullWeeks)
 		showDebug(false, "remainding days: " + remainderDays)
@@ -429,8 +479,8 @@ function calculateAllowance()
 			 const tcurrentDate = vars["start"].getDate()
 			 tcd.setDate(vars["start"].getDate() + dn)
 			 dayOfWeek = dayNames[tcd.getDay()]
-			 luxTotal = luxTotal + dayLuxTotals[dayOfWeek]
-			 showDebug(false, "Update luxTotal (+ "+dayLuxTotals[dayOfWeek]+" for " +dayOfWeek+" ) = " + luxTotal)			
+			 luxTotal = luxTotal + dayTotals[dayOfWeek]["lux"]
+			 showDebug(false, "Update luxTotal (+ "+dayTotals[dayOfWeek]["lux"]+" for " +dayOfWeek+" ) = " + luxTotal)			
 			 dn++}		
 
     dn = 0
@@ -457,6 +507,7 @@ function calculateAllowance()
       {      
       showDebug(false, "Period: " + vars["period"])
       showDebug(false, "Float Period: " + parseFloat(vars["period"]))
+      
       let totalEventPeriod = days * (100/parseFloat(vars["period"])) ; //Days
       plannedDarkPeriod = Math.ceil((totalEventPeriod - days) * 24); //Hours
       let plannedDarkYears = Math.floor(plannedDarkPeriod/(24 * 365));

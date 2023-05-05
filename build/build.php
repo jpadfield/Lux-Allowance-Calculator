@@ -75,7 +75,7 @@ $versions = array(
   );
   
 $versions_new = array(
-  "jquery" => "3.6.3",
+  "jquery" => "3.6.4",
   "tether" => "2.0.0",
   "bootstrap" => "5.2.3",
   "json-viewer" => "1.5.0",
