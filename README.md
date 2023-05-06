@@ -1,9 +1,9 @@
 # Lux-Allowance-Calculator
 
-This is an interactive live modelling system which can automatically convert simple tab separated triples into graphical models using the [mermaid library](https://mermaid-js.github.io/mermaid). 
+This is a web based tool that has been designed to help check light exposure plans for exhibitions and general displays within Galeries, Libraries, Archives, Museums and beyond. It is based on the [Simple Site](https://github.com/jpadfield/simple-site) tool, which was designed to create simple web presentations on GitHub.
 
 ## Instructions
-Full [details and instructions](https://jpadfield.github.io/Lux-Allowance-Calculator/instructions.html) relating to how this system works are being developed, however the live system is reasonably self explanitory: [Lux-Allowance Calculator](https://jpadfield.github.io/Lux-Allowance-Calculator/), with all of the related code presented here in [GitHub](https://github.com/jpadfield/Lux-Allowance-Calculator/).
+Full [details and instructions](https://national-gallery.github.io/Lux-Allowance-Calculator/instructions.html) relating to how this system works have been provided, however the live system is reasonably self explanitory: [Lux-Allowance Calculator](https://national-gallery.github.io/Lux-Allowance-Calculator/), with all of the related code presented here in [GitHub](https://github.com/national-gallery/Lux-Allowance-Calculator).
 
 ## Acknowledgement
 
