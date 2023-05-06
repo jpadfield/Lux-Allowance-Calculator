@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.7902664.svg)](https://doi.org/10.5281/zenodo.7902664)
 # Lux-Allowance-Calculator
 
 This is a web based tool that has been designed to help check light exposure plans for exhibitions and general displays within Galeries, Libraries, Archives, Museums and beyond. It is based on the [Simple Site](https://github.com/jpadfield/simple-site) tool, which was designed to create simple web presentations on GitHub.
